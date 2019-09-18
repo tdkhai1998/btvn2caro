@@ -2,42 +2,40 @@ import React from 'react';
 import Square from "./Square";
 
 function haveWinner(square, i, width, height){
-    var lenght=width*height;
-    const dir=[[-width-1, +width+1],[-width,+width],[-width+1,+width-1],[-1,1]]
+    width=Number(width); height=Number(height);
+    const dir=[[[-1,-1], [1,1]],[[0,-1],[0,+1]],[[1,-1],[-1,1]],[[-1,0],[1,0]]];
     for(var j=0;j<4;j++){
-        var result=countDirection(dir[j],i,square,lenght);
-        if(result!==false)
+        var result=countDirection(dir[j],i,square,width, height);
+        if(result!==false)// have a winner
             return {
-                arr:result,
+                arr: result,
                 dir: j
             }
     }
     return false;
 }
-function countDirection(dir,i,square,lenght){
-    var count=0;
-    var turn=square[i].value;
-    var temp=i;
-    var block=0;
+function countDirection(dir,i,square, width, height){
+    var count=0, turn=square[i].value, block=0;
     var mark=[];
-    while(i<lenght && i>=0 && square[i]!==null && square[i].value===turn){
-        count++;
-        mark.push(i);
-        i=i+dir[0];
+    var check=(x,y)=>(x>=0&&x<width) && (y>=0&&y<height);
+    var countByTrend=(trend)=>{
+        var x = i % width , y = Math.floor(i/width);
+        var index=i;
+        while(check(x,y) && square[index]!=null &&square[index].value===turn){
+            count++;
+            mark.push(index);
+            x+=dir[trend][0];
+            y+=dir[trend][1];
+            index=y*width+x;
+        }
+        if(check(x,y) && square[index]!=null && square[index].value!==turn){
+            block++;
+        }
     }
-    if(i<lenght && i>=0 && square[i]!==null){
-        block++;
-    }
-    i=temp+dir[1];
-    while(i<lenght && i>=0 && square[i]!==null&& square[i].value===turn){
-        count++;
-        mark.push(i);
-        i=i+dir[1];
-    }
-    if(i<lenght && i>=0 && square[i]!==null){
-        block++;
-    }
-    if(block===2) return false
+    countByTrend(0);//up trend
+    countByTrend(1);//down trend
+    count--;
+    if(count===5 && block===2) return false
     if(count<5) return false;
     return mark;
 }
@@ -50,28 +48,21 @@ class Board extends React.Component{
         }  
     }
     onClick(i){
-        if(!this.state.result){
-            const square = this.state.square.slice();
-            if(square[i]===null){
-                var data={
-                    value: this.state.turn?'X':'O',
-                    dirMark:-1
-                }
-                square[i]=data;
-                var result = haveWinner(square, i, this.props.m, this.props.n);
-                if(result!==false){
-                    result.arr.forEach((j)=>{
-                        square[Number(j)].dirMark=result.dir;
-                    });
-                }
-                this.setState({square: square,
-                                turn:!this.state.turn,
-                                result: result!==false?true:false
+        if(!this.state.result && this.state.square[i]===null){
+            var square = this.state.square.slice();
+            square[i]={ value: this.state.turn?'X':'O', dirMark:-1 }
+            var result = haveWinner(square, i, this.props.m, this.props.n);
+            if(result!==false){
+                result.arr.forEach((j)=>{
+                    square[j].dirMark=result.dir;
                 });
             }
+            this.setState({square: square,
+                            turn:!this.state.turn,
+                            result: result!==false?true:false
+            });
         }
     }
-    
     restart(){
         this.setState({
             square: Array(this.props.m*this.props.n).fill(null),
@@ -79,9 +70,6 @@ class Board extends React.Component{
             result:false 
         })
     }
-
-
-
     print(){
         var row=[]
         for(var i=0;  i<this.props.n;i++){
@@ -97,9 +85,7 @@ class Board extends React.Component{
     render(){
         return (
             <div >
-                
-                <div className="flex-container">
-                    
+                <div className="flex-container"> 
                     <div>{this.print()}</div>
                     <div style={{padding: 50}}>
                         <img style={{height:200, width: 200}} src="./index.png" alt="loi"/>
@@ -107,7 +93,6 @@ class Board extends React.Component{
                         <button className="button" onClick={()=>this.restart()}> RESTART</button>
                     </div>
                 </div>
-                
             </div>
         )
     }
