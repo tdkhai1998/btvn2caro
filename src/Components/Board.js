@@ -1,96 +1,48 @@
 import React from 'react';
 import Square from "./Square";
 
-function haveWinner(square, i, width, height){
-    width=Number(width); height=Number(height);
-    const dir=[[[-1,-1], [1,1]],[[0,-1],[0,+1]],[[1,-1],[-1,1]],[[-1,0],[1,0]]];
-    for(var j=0;j<4;j++){
-        var result=countDirection(dir[j],i,square,width, height);
-        if(result!==false)// have a winner
-            return {
-                arr: result,
-                dir: j
+class Board extends React.Component {
+    print() {
+        var row = []
+        let x = this.props.selectedIndex % 20;
+        let y = Math.floor(this.props.selectedIndex / 20);
+        for (var i = 0; i < this.props.n; i++) {
+            var squares = []
+            for (var j = 0; j < this.props.m; j++) {
+                const index = i * this.props.m + j;
+                if (i === y || j === x) {
+                    squares.push(<Square key={j} result={this.props.result} status="todam" value={this.props.square[index]} onClick={() => { this.props.onClick(index) }} />)
+                }
+                else {
+                    squares.push(<Square key={j} result={this.props.result} value={this.props.square[index]} onClick={() => { this.props.onClick(index) }} />)
+                }
             }
-    }
-    return false;
-}
-function countDirection(dir,i,square, width, height){
-    var count=0, turn=square[i].value, block=0;
-    var mark=[];
-    var check=(x,y)=>(x>=0&&x<width) && (y>=0&&y<height);
-    var countByTrend=(trend)=>{
-        var x = i % width , y = Math.floor(i/width);
-        var index=i;
-        while(check(x,y) && square[index]!=null &&square[index].value===turn){
-            count++;
-            mark.push(index);
-            x+=dir[trend][0];
-            y+=dir[trend][1];
-            index=y*width+x;
-        }
-        if(check(x,y) && square[index]!=null && square[index].value!==turn){
-            block++;
-        }
-    }
-    countByTrend(0);//up trend
-    countByTrend(1);//down trend
-    count--;
-    if(count===5 && block===2) return false
-    if(count<5) return false;
-    return mark;
-}
-class Board extends React.Component{
-    constructor(props){
-        super(props)
-        this.state={
-            square: Array(this.props.m*this.props.n).fill(null),
-            turn:true   
-        }  
-    }
-    onClick(i){
-        if(!this.state.result && this.state.square[i]===null){
-            var square = this.state.square.slice();
-            square[i]={ value: this.state.turn?'X':'O', dirMark:-1 }
-            var result = haveWinner(square, i, this.props.m, this.props.n);
-            if(result!==false){
-                result.arr.forEach((j)=>{
-                    square[j].dirMark=result.dir;
-                });
-            }
-            this.setState({square: square,
-                            turn:!this.state.turn,
-                            result: result!==false?true:false
-            });
-        }
-    }
-    restart(){
-        this.setState({
-            square: Array(this.props.m*this.props.n).fill(null),
-            turn:true,
-            result:false 
-        })
-    }
-    print(){
-        var row=[]
-        for(var i=0;  i<this.props.n;i++){
-            var squares=[]
-            for(var j=0;j<this.props.m;j++){
-                const index=i*this.props.m+j;
-               squares.push(<Square key={j}  value={this.state.square[index]} onClick={() => {this.onClick(index)}}/>)
-            }
-            row.push(<div key ={i} className="board-row">{squares}</div>)
+            row.push(<div key={i} className="board-row">{squares}</div>)
         }
         return row
     }
-    render(){
+    listTurn() {
+        var arr = !this.props.isSorted ? this.props.history.slice().reverse() : this.props.history.slice();
+        var indexHis = this.props.indexHistory;
+        return arr.map((item, index) => {
+            var postion = "( " + (item.index % 20) + " , " + Math.floor((item.index / 20)) + " ) ";
+            let index2 = !this.props.isSorted ? arr.length - 1 - index : index;
+            if (index2 === indexHis) {
+                return <button disabled className="myButton" key={index} onClick={() => this.props.amazing(index2)}>{index2} TURN {(item.turn ? 'X' : 'O') + ' ' + postion}</button>
+            }
+            return <button className="myButton" key={index} onClick={() => this.props.amazing(index2)}> {index2} TURN {(item.turn ? 'X' : 'O') + ' ' + postion}</button>
+        })
+    }
+    render() {
         return (
             <div >
-                <div className="flex-container"> 
+                <div className="flex-container">
                     <div>{this.print()}</div>
-                    <div style={{padding: 50}}>
-                        <img style={{height:200, width: 200}} src="./index.png" alt="loi"/>
-                        <div style={{width: 250}}>{!this.state.result?("TURN "+(this.state.turn?"X":"O")):((this.state.turn?"O":"X")+" WON!!!")}</div>
-                        <button className="button" onClick={()=>this.restart()}> RESTART</button>
+                    <div style={{ paddingTop: 10, width: 500 }}>
+                        <div style={{ width: 250 }}>{!this.props.result ? ("TURN " + (this.props.turn ? "X" : "O")) : ((this.props.turn ? "O" : "X") + " WON!!!")}</div>
+                        <button className="button" onClick={() => this.props.restart()}> RESTART</button>
+                        <button className="button" onClick={() => this.props.sort()}> {this.props.isSorted ? 'SORTED' : 'SORT'}</button>
+                        <div style={{ maxHeight: 450, overflow: 'auto', paddingBottom: 20 }}> {this.listTurn()}</div>
                     </div>
                 </div>
             </div>
