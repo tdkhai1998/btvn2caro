@@ -145,3 +145,6 @@ img{
   display: inline-block;
   font-size: 16px;
 }
+.button:focus{
+  top: -1px;
+}

@@ -75,7 +75,6 @@ class Game extends React.Component {
                 square[history[i].index] = null;
             }
         }
-
         this.setState({
             indexHistory: index,
             square: square,

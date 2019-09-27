@@ -11,7 +11,7 @@ class Board extends React.Component {
             for (var j = 0; j < this.props.m; j++) {
                 const index = i * this.props.m + j;
                 if (i === y || j === x) {
-                    squares.push(<Square key={j} result={this.props.result} status="todam" value={this.props.square[index]} onClick={() => { this.props.onClick(index) }} />)
+                    squares.push(<Square key={j} result={this.props.result} status='todam' value={this.props.square[index]} onClick={() => { this.props.onClick(index) }} />)
                 }
                 else {
                     squares.push(<Square key={j} result={this.props.result} value={this.props.square[index]} onClick={() => { this.props.onClick(index) }} />)
