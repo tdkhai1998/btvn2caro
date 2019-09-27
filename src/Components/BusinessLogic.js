@@ -50,6 +50,4 @@ function haveWinner(square, i, width, height) {
   }
   return false;
 }
-export default {
-  haveWinner
-};
+export default haveWinner;
