@@ -16,7 +16,7 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "precommit": "NODE_ENV=production lint-staged"
+    "precommit": "SET NODE_ENV=production lint-staged"
   },
   "lint-staged": {
     "*.{js,jsx}": [
