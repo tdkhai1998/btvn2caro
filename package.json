@@ -15,8 +15,12 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "precommit": "SET NODE_ENV=production lint-staged"
+    "deploy": "gh-pages -d build"
+  },
+  "husky": {
+    "hooks": {
+      "precommit": "SET NODE_ENV=production lint-staged"
+    }
   },
   "lint-staged": {
     "*.{js,jsx}": [
