@@ -2,7 +2,7 @@
   "name": "btvn2caro",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://tdkhai1998.github.io/btvn2caro",
+  "homepage": "http://tdkhai1998.github.io/caro",
   "dependencies": {
     "bootstrap": "^4.3.1",
     "react": "^16.9.0",
