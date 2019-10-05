@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/btvn2caro/static/css/main.8df70eb5.chunk.css",
-    "main.js": "/btvn2caro/static/js/main.1796c8ac.chunk.js",
-    "main.js.map": "/btvn2caro/static/js/main.1796c8ac.chunk.js.map",
+    "main.js": "/btvn2caro/static/js/main.551f366b.chunk.js",
+    "main.js.map": "/btvn2caro/static/js/main.551f366b.chunk.js.map",
     "runtime~main.js": "/btvn2caro/static/js/runtime~main.e066835a.js",
     "runtime~main.js.map": "/btvn2caro/static/js/runtime~main.e066835a.js.map",
     "static/js/2.5bf121ca.chunk.js": "/btvn2caro/static/js/2.5bf121ca.chunk.js",
     "static/js/2.5bf121ca.chunk.js.map": "/btvn2caro/static/js/2.5bf121ca.chunk.js.map",
     "index.html": "/btvn2caro/index.html",
-    "precache-manifest.4d25af1d539b0bd0ca9f062a28ea9bca.js": "/btvn2caro/precache-manifest.4d25af1d539b0bd0ca9f062a28ea9bca.js",
+    "precache-manifest.fd749c061423e6a4a9f32a8b0dfa42ee.js": "/btvn2caro/precache-manifest.fd749c061423e6a4a9f32a8b0dfa42ee.js",
     "service-worker.js": "/btvn2caro/service-worker.js",
     "static/css/main.8df70eb5.chunk.css.map": "/btvn2caro/static/css/main.8df70eb5.chunk.css.map"
   }
