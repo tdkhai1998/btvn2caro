@@ -4,7 +4,9 @@ import {
   winner,
   addToHis,
   changeBoardFromHis,
-  setTurn, ChangeHisIndex
+  setTurn,
+  ChangeHisIndex,
+  RemoveWinner
 } from './actions/allActions';
 import haveWinner from './helper';
 
@@ -22,9 +24,9 @@ export default store => next => action => {
       next(action);
     }
   } else if (action.type === types.HISTORY.REMOVE) {
-    console.log('Historry removw');
     const { from, to } = action;
-    const { history } = store.getState();
+    let { history } = store.getState();
+
     const change =
       from > to
         ? {
@@ -36,8 +38,10 @@ export default store => next => action => {
             isRemove: false
           };
     store.dispatch(changeBoardFromHis(change.arr, change.isRemove));
-    store.dispatch(setTurn(history.arr[to].turn));
-    store.dispatch(ChangeHisIndex(to))
+    store.dispatch(ChangeHisIndex(to));
+    history = store.getState().history;
+    store.dispatch(setTurn(!history.arr[to].turn));
+    store.dispatch(RemoveWinner());
     next(action);
   } else {
     next(action);

@@ -15,12 +15,15 @@ export const turn = (state = false, action) => {
       return state;
   }
 };
+
 export const winnerLine = (state = { arr: [], dir: -1 }, action) => {
   const TYPE = types.WINNER_LINE;
   switch (action.type) {
     case TYPE.ADD: {
       return action.arr;
     }
+    case TYPE.REMOVE:
+      return { arr: [], dir: -1 };
     default:
       return state;
   }
@@ -43,7 +46,6 @@ export const squares = (state = initialState, action) => {
     case types.SQUARES.MANY: {
       const { arr, isRemove } = action;
       const newState = state.slice();
-      console.log(arr);
       arr.forEach(element => {
         if (isRemove) newState[element.index] = null;
         else
@@ -54,11 +56,14 @@ export const squares = (state = initialState, action) => {
       });
       return newState;
     }
+    case types.SQUARES.RESET: {
+      return Array(400).fill(null);
+    }
     default:
       return state;
   }
 };
-export const isSorted = (state = true, action) => {
+export const isSorted = (state = false, action) => {
   switch (action.type) {
     case types.SORT: {
       return !state;
@@ -84,12 +89,10 @@ export const history = (state = { arr: [], index: -1 }, action) => {
         index: action.index
       };
     }
-    case types.HISTORY.REMOVE: {
-      return {
-        arr,
-        index
-      };
+    case types.HISTORY.RESET: {
+      return { arr: [], index: -1 };
     }
+    case types.HISTORY.REMOVE:
     default:
       return state;
   }

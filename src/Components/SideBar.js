@@ -2,12 +2,10 @@ import React from 'react';
 
 const SideBar = props => {
   const listTurn = () => {
-    console.log(props);
     const { history, onClick, isSorted } = props;
     const arr = !isSorted ? history.arr.slice().reverse() : history.arr.slice();
     const indexHis = history.index;
     return arr.map((item, index) => {
-      console.log(item);
       const postion = `( ${item.index % 20} , ${Math.floor(
         item.index / 20
       )} ) `;
@@ -33,7 +31,6 @@ const SideBar = props => {
           key={id}
           onClick={() => onClick(indexHis, index2)}
         >
-          {console.log(indexHis, index2)}
           {index2} TURN {`${item.turn ? 'X' : 'O'}  ${postion}`}
         </button>
       );

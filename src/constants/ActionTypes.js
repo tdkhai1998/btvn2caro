@@ -1,7 +1,8 @@
 export const SQUARES = {
   ADD: 'Add',
   REMOVE: 'Remove',
-  MANY: 'dfghj'
+  MANY: 'dfghj',
+  RESET: 'resset'
 };
 export const TURN = {
   CHANGE: 'Change',
@@ -14,6 +15,7 @@ export const WINNER_LINE = {
 export const HISTORY = {
   ADD: '=sfsr',
   REMOVE: ' sfgs',
+  RESET: 'fdgh',
   CHANGE_INDEX: 'dfghjfghfddgh'
 };
 export const SORT = 'dfg';

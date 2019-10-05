@@ -1,12 +1,12 @@
 import React from 'react';
 
 const Square = props => {
-  const { status, dir, ok, value } = props;
+  const { status, dir, ok, value, onClick } = props;
   return (
     <button
       type="button"
       className={`square  ${status}`}
-      onClick={() => props.onClick()}
+      onClick={() => onClick()}
     >
       {(() => {
         if (value === null) return <img src="./Anh1.png" alt="dgf" />;

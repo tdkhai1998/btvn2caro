@@ -6,13 +6,20 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import rootReducers from './reducers/rootReducer';
 import Board from './container/boardContainer';
+import Controls from './container/controlContainer';
+import SideBar from './container/sideBarContainer';
 import mid from './middleWare';
 
 const store = createStore(rootReducers, applyMiddleware(mid));
-console.log(store.getState())
 const a = (
   <Provider store={store}>
-    <Board />
+    <div className="flex-container">
+      <Board />
+      <div style={{ paddingTop: 10, width: 500 }}>
+        <Controls />
+        <SideBar />
+      </div>
+    </div>
   </Provider>
 );
 
