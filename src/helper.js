@@ -30,7 +30,7 @@ function countDirection(dir, i, square, width, height) {
   if (count < 5) return false;
   return mark;
 }
-function haveWinner(square, i, width, height) {
+function haveWinner(square, i, width = 20, height = 20) {
   const myWidth = Number(width);
   const myHeight = Number(height);
   const dir = [
