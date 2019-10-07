@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/caro/static/css/main.8df70eb5.chunk.css",
-    "main.js": "/caro/static/js/main.444489fe.chunk.js",
-    "main.js.map": "/caro/static/js/main.444489fe.chunk.js.map",
-    "runtime~main.js": "/caro/static/js/runtime~main.302a16e8.js",
-    "runtime~main.js.map": "/caro/static/js/runtime~main.302a16e8.js.map",
-    "static/js/2.5bf121ca.chunk.js": "/caro/static/js/2.5bf121ca.chunk.js",
-    "static/js/2.5bf121ca.chunk.js.map": "/caro/static/js/2.5bf121ca.chunk.js.map",
-    "index.html": "/caro/index.html",
-    "precache-manifest.6293f8bfef5ce40f23dda7900a56cde8.js": "/caro/precache-manifest.6293f8bfef5ce40f23dda7900a56cde8.js",
-    "service-worker.js": "/caro/service-worker.js",
-    "static/css/main.8df70eb5.chunk.css.map": "/caro/static/css/main.8df70eb5.chunk.css.map"
+    "main.css": "/btvn2caro/static/css/main.8df70eb5.chunk.css",
+    "main.js": "/btvn2caro/static/js/main.551f366b.chunk.js",
+    "main.js.map": "/btvn2caro/static/js/main.551f366b.chunk.js.map",
+    "runtime~main.js": "/btvn2caro/static/js/runtime~main.e066835a.js",
+    "runtime~main.js.map": "/btvn2caro/static/js/runtime~main.e066835a.js.map",
+    "static/js/2.5bf121ca.chunk.js": "/btvn2caro/static/js/2.5bf121ca.chunk.js",
+    "static/js/2.5bf121ca.chunk.js.map": "/btvn2caro/static/js/2.5bf121ca.chunk.js.map",
+    "index.html": "/btvn2caro/index.html",
+    "precache-manifest.fd749c061423e6a4a9f32a8b0dfa42ee.js": "/btvn2caro/precache-manifest.fd749c061423e6a4a9f32a8b0dfa42ee.js",
+    "service-worker.js": "/btvn2caro/service-worker.js",
+    "static/css/main.8df70eb5.chunk.css.map": "/btvn2caro/static/css/main.8df70eb5.chunk.css.map"
   }
 }
