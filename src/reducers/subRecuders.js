@@ -2,6 +2,19 @@ import * as types from '../constants/ActionTypes';
 
 const initialState = Array(400).fill(null);
 
+export const user = (state = null, action) => {
+  switch (action.type) {
+    case 'USER_ADD': {
+      return action.user;
+    }
+    case 'USER_RESET': {
+      return null;
+    }
+    default:
+      return state;
+  }
+};
+
 export const turn = (state = false, action) => {
   const TYPE = types.TURN;
   switch (action.type) {
@@ -93,6 +106,20 @@ export const history = (state = { arr: [], index: -1 }, action) => {
       return { arr: [], index: -1 };
     }
     case types.HISTORY.REMOVE:
+    default:
+      return state;
+  }
+};
+
+export const isFetching = (state = false, action) => {
+  switch (action.type) {
+    case 'DONE': {
+      return false;
+    }
+    case 'DOING': {
+      console.log('doinh');
+      return true;
+    }
     default:
       return state;
   }

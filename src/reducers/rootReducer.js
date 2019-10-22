@@ -1,12 +1,20 @@
 import { combineReducers } from 'redux';
-import { squares, turn, winnerLine, isSorted, history } from './subRecuders';
+import {
+  squares,
+  turn,
+  winnerLine,
+  isSorted,
+  history,
+  isFetching
+} from './subRecuders';
 
 const rootReducer = combineReducers({
   squares,
   turn,
   winnerLine,
   isSorted,
-  history
+  history,
+  isFetching
 });
 
 export default rootReducer;

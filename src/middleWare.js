@@ -26,7 +26,6 @@ export default store => next => action => {
   } else if (action.type === types.HISTORY.REMOVE) {
     const { from, to } = action;
     let { history } = store.getState();
-
     const change =
       from > to
         ? {

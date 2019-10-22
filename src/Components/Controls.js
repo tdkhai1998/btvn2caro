@@ -4,7 +4,7 @@ const Controls = props => {
   const { isSorted, turn, restart, sorted } = props;
   return (
     <div>
-      <p>{turn ? 'NEXT TURN :X' : 'NEXT TURN :O'}</p>
+      <h1>{turn ? 'NEXT TURN :X' : 'NEXT TURN :O'}</h1>
       <button type="button" className="button" onClick={() => restart()}>
         RESTART
       </button>

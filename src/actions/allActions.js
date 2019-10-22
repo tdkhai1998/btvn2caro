@@ -1,53 +1,76 @@
-import * as types from '../constants/ActionTypes';
+import {
+  SQUARES,
+  WINNER_LINE,
+  TURN,
+  HISTORY,
+  SORT
+} from '../constants/ActionTypes';
+
+const fetch = require('node-fetch');
 
 export const addToBoard = (index, turn) => ({
-  type: types.SQUARES.ADD,
+  type: SQUARES.ADD,
   index,
   turn
 });
 export const removeFromBoard = index => ({
-  type: types.SQUARES.REMOVE,
+  type: SQUARES.REMOVE,
   index
 });
 export const reStart = () => ({
-  type: types.SQUARES.RESET
+  type: SQUARES.RESET
 });
 export const changeBoardFromHis = (arr, isRemove) => ({
-  type: types.SQUARES.MANY,
+  type: SQUARES.MANY,
   arr,
   isRemove
 });
 export const changeTurn = () => ({
-  type: types.TURN.CHANGE
+  type: TURN.CHANGE
 });
 export const setTurn = turn => ({
-  type: types.TURN.SET,
+  type: TURN.SET,
   turn
 });
 export const winner = arr => ({
-  type: types.WINNER_LINE.ADD,
+  type: WINNER_LINE.ADD,
   arr
 });
 export const RemoveWinner = () => ({
-  type: types.WINNER_LINE.REMOVE
+  type: WINNER_LINE.REMOVE
 });
 export const addToHis = (index, turn) => ({
-  type: types.HISTORY.ADD,
+  type: HISTORY.ADD,
   index,
   turn
 });
 export const RemoveHis = (from, to) => ({
-  type: types.HISTORY.REMOVE,
+  type: HISTORY.REMOVE,
   from,
   to
 });
 export const ReSetHis = () => ({
-  type: types.HISTORY.RESET
+  type: HISTORY.RESET
 });
 export const ChangeHisIndex = index => ({
-  type: types.HISTORY.CHANGE_INDEX,
+  type: HISTORY.CHANGE_INDEX,
   index
 });
 export const sort = () => ({
-  type: types.SORT
+  type: SORT
 });
+export const register = (username, password, repassword) => dispatch => {
+  dispatch({ type: 'DOING' });
+  return fetch('http://localhost:3001/user/register', {
+    method: 'POST',
+    body: JSON.stringify({ username, password, repassword }),
+
+    headers: { 'Content-Type': 'application/json' }
+  })
+    .then(res => res.json())
+    .then(res => {
+      console.log('dd', res);
+      dispatch({ type: 'DONE' });
+    })
+    .catch(e => {});
+};
