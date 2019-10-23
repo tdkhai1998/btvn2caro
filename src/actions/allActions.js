@@ -94,7 +94,6 @@ export const login = (username, password, his) => dispatch => {
     })
     .then(res => {
       const result = JSON.parse(res);
-      console.log(result);
       if (result.code === 1) {
         dispatch({ type: 'User_add', user: result.user, token: result.token });
         his.push('/home');
@@ -107,7 +106,6 @@ export const login = (username, password, his) => dispatch => {
     .catch(e => {});
 };
 export const logout = his => dispatch => {
-  console.log('djng');
   return fetch('http://localhost:3001/user/logout')
     .then(res => {
       dispatch({ type: 'User_reset' });
