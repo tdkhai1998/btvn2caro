@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // import { Container, Row, Col } from 'react-bootstrap';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import './index.css';
@@ -12,35 +12,27 @@ import rootReducers from './reducers/rootReducer';
 
 import NavBar from './components/Nav';
 import Game from './components/Game';
-import LoginForm from './components/LoginForm';
+import LoginForm from './container/loginContainer';
 import RegisterForm from './container/registerContainer';
-import Home from './components/Home';
+import Home from './container/homeContainer';
 
 import mid from './middleWare';
 
 const store = createStore(rootReducers, applyMiddleware(thunk, mid));
 console.log(store.getState());
 const a = (
-  <Provider store={store}>
-    <BrowserRouter>
+  <BrowserRouter>
+    <Provider store={store}>
       <Switch>
         <Route exact path="/Game">
           <Game />
         </Route>
-        <Route path="/login">
-          <LoginForm />
-        </Route>
-        <Route path="/home">
-          <NavBar />
-          <Home />
-        </Route>
-        <Route path="/logout" />
-        <Route path="/register">
-          <RegisterForm />
-        </Route>
+        <Route path="/login" component={LoginForm} />
+        <Route path="/home" component={Home} />
+        <Route path="/register" component={RegisterForm} />
       </Switch>
-    </BrowserRouter>
-  </Provider>
+    </Provider>
+  </BrowserRouter>
 );
 
 ReactDOM.render(a, document.getElementById('root'));

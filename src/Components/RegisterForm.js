@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Row, Col, Button, Spinner } from 'react-bootstrap';
 
-export default function RegisterForm(props) {
+export default function RegisterForm() {
   const style = {
     marginTop: 150
   };

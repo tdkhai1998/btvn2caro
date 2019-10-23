@@ -2,19 +2,6 @@ import * as types from '../constants/ActionTypes';
 
 const initialState = Array(400).fill(null);
 
-export const user = (state = null, action) => {
-  switch (action.type) {
-    case 'USER_ADD': {
-      return action.user;
-    }
-    case 'USER_RESET': {
-      return null;
-    }
-    default:
-      return state;
-  }
-};
-
 export const turn = (state = false, action) => {
   const TYPE = types.TURN;
   switch (action.type) {
@@ -119,6 +106,31 @@ export const isFetching = (state = false, action) => {
     case 'DOING': {
       console.log('doinh');
       return true;
+    }
+    default:
+      return state;
+  }
+};
+export const login = (state = 0, action) => {
+  switch (action.type) {
+    case 'SET_LOGIN': {
+      return action.index;
+    }
+    default:
+      return state;
+  }
+};
+export const user = (state = null, action) => {
+  switch (action.type) {
+    case 'User_add': {
+      console.log('ad vo ne', action.user, action.token);
+      return {
+        user: action.user,
+        token: action.token
+      };
+    }
+    case 'User_reset': {
+      return null;
     }
     default:
       return state;

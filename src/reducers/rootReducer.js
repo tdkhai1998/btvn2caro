@@ -5,7 +5,9 @@ import {
   winnerLine,
   isSorted,
   history,
-  isFetching
+  isFetching,
+  login,
+  user
 } from './subRecuders';
 
 const rootReducer = combineReducers({
@@ -14,7 +16,9 @@ const rootReducer = combineReducers({
   winnerLine,
   isSorted,
   history,
-  isFetching
+  isFetching,
+  login,
+  user
 });
 
 export default rootReducer;
