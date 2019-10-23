@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/btvn2caro/static/css/main.8df70eb5.chunk.css",
-    "main.js": "/btvn2caro/static/js/main.a2028df1.chunk.js",
-    "main.js.map": "/btvn2caro/static/js/main.a2028df1.chunk.js.map",
+    "main.css": "/btvn2caro/static/css/main.153edd93.chunk.css",
+    "main.js": "/btvn2caro/static/js/main.17ec06e0.chunk.js",
+    "main.js.map": "/btvn2caro/static/js/main.17ec06e0.chunk.js.map",
     "runtime~main.js": "/btvn2caro/static/js/runtime~main.e066835a.js",
     "runtime~main.js.map": "/btvn2caro/static/js/runtime~main.e066835a.js.map",
     "static/css/2.266e55a5.chunk.css": "/btvn2caro/static/css/2.266e55a5.chunk.css",
-    "static/js/2.b3a3dea9.chunk.js": "/btvn2caro/static/js/2.b3a3dea9.chunk.js",
-    "static/js/2.b3a3dea9.chunk.js.map": "/btvn2caro/static/js/2.b3a3dea9.chunk.js.map",
+    "static/js/2.55b3da42.chunk.js": "/btvn2caro/static/js/2.55b3da42.chunk.js",
+    "static/js/2.55b3da42.chunk.js.map": "/btvn2caro/static/js/2.55b3da42.chunk.js.map",
     "index.html": "/btvn2caro/index.html",
-    "precache-manifest.d92e0493725f6c3ca3b3128021260f54.js": "/btvn2caro/precache-manifest.d92e0493725f6c3ca3b3128021260f54.js",
+    "precache-manifest.4ed2b294aafbf42bae510a64a9150ba2.js": "/btvn2caro/precache-manifest.4ed2b294aafbf42bae510a64a9150ba2.js",
     "service-worker.js": "/btvn2caro/service-worker.js",
     "static/css/2.266e55a5.chunk.css.map": "/btvn2caro/static/css/2.266e55a5.chunk.css.map",
-    "static/css/main.8df70eb5.chunk.css.map": "/btvn2caro/static/css/main.8df70eb5.chunk.css.map"
+    "static/css/main.153edd93.chunk.css.map": "/btvn2caro/static/css/main.153edd93.chunk.css.map"
   }
 }
