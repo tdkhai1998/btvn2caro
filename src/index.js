@@ -10,7 +10,7 @@ import './index.css';
 
 import * as serviceWorker from './serviceWorker';
 import rootReducers from './reducers/rootReducer';
-import Game from './components/Game';
+import Game from './Components/Game';
 import LoginForm from './container/loginContainer';
 import RegisterForm from './container/registerContainer';
 import Home from './container/homeContainer';

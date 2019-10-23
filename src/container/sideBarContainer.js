@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import SideBar from '../components/SideBar';
+import SideBar from '../Components/SideBar';
 import { RemoveHis } from '../actions/allActions';
 
 const mapStateToProps = state => ({

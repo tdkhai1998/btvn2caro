@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Controls from '../components/Controls';
+import Controls from '../Components/Controls';
 import {
   reStart,
   setTurn,

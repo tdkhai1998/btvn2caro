@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import NAV from '../components/Nav';
+import NAV from '../Components/Nav';
 
 import { logout } from '../actions/allActions';
 
