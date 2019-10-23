@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/btvn2caro/precache-manifest.8df6ab8b74a70c2b85c8bd9fd75abe84.js"
+  "/btvn2caro/precache-manifest.d92e0493725f6c3ca3b3128021260f54.js"
 );
 
 self.addEventListener('message', (event) => {
