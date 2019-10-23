@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "bdd1b264656438615b9a43ca74bd5fdd",
+    "revision": "673b3d437e7c360a5d3ca47af211b5c7",
     "url": "/btvn2caro/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/btvn2caro/static/css/2.266e55a5.chunk.css"
   },
   {
-    "revision": "4dcf6dcd5268dc16674a",
+    "revision": "96520b9f7e00cc73d8fe",
     "url": "/btvn2caro/static/css/main.153edd93.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/btvn2caro/static/js/2.55b3da42.chunk.js"
   },
   {
-    "revision": "4dcf6dcd5268dc16674a",
-    "url": "/btvn2caro/static/js/main.17ec06e0.chunk.js"
+    "revision": "96520b9f7e00cc73d8fe",
+    "url": "/btvn2caro/static/js/main.cb1f61ba.chunk.js"
   },
   {
     "revision": "5c44672059d591798c57",
