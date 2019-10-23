@@ -61,7 +61,7 @@ export const sort = () => ({
 });
 export const register = (username, password, repassword, his) => dispatch => {
   dispatch({ type: 'DOING' });
-  return fetch('http://localhost:3001/user/register', {
+  return fetch('https://khaicaro.herokuapp.com/user/register', {
     method: 'POST',
     body: JSON.stringify({ username, password, repassword }),
     headers: { 'Content-Type': 'application/json' }
@@ -82,7 +82,8 @@ export const register = (username, password, repassword, his) => dispatch => {
 };
 export const login = (username, password, his) => dispatch => {
   dispatch({ type: 'SET_LOGIN', index: 1 });
-  return fetch('http://localhost:3001/user/login', {
+  console.log('doing');
+  return fetch('https://khaicaro.herokuapp.com/user/login', {
     method: 'POST',
     body: JSON.stringify({ username, password }),
 
@@ -93,7 +94,9 @@ export const login = (username, password, his) => dispatch => {
       return res.json();
     })
     .then(res => {
+      console.log(res);
       const result = JSON.parse(res);
+
       if (result.code === 1) {
         dispatch({ type: 'User_add', user: result.user, token: result.token });
         his.push('/home');
@@ -103,10 +106,13 @@ export const login = (username, password, his) => dispatch => {
         alert('Thất bại');
       }
     })
-    .catch(e => {});
+    .catch(e => {
+      console.log(e);
+    });
 };
 export const logout = his => dispatch => {
-  return fetch('http://localhost:3001/user/logout')
+  console.log('djng');
+  return fetch('https://khaicaro.herokuapp.com/user/logout')
     .then(res => {
       dispatch({ type: 'User_reset' });
       return res.json();
