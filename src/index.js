@@ -26,13 +26,12 @@ const a = (
         <Route exact path="/Game">
           <Game />
         </Route>
-
+        <Route path="/register" component={RegisterForm} />
         <Route path="/login" component={LoginForm} />
         <Route path="/home" component={Home} />
         <Route path="/">
           <Redirect to="/home" />
         </Route>
-        <Route path="/register" component={RegisterForm} />
       </Switch>
     </Provider>
   </BrowserRouter>
