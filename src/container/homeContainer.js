@@ -27,7 +27,7 @@ const Home = props => {
             <td rowSpan="2">
               <img alt="" src="avt.png" style={{ height: 150, width: 150 }} />
             </td>
-            <td>Name: {Name}</td>
+            <td>Name: {user && user.user && user.user.username}</td>
           </tr>
           <tr>
             <td style={{ textAlign: 'center' }}>
