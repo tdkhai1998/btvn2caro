@@ -7,7 +7,8 @@ import {
   history,
   isFetching,
   login,
-  user
+  user,
+  haveMessage
 } from './subRecuders';
 
 const rootReducer = combineReducers({
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
   history,
   isFetching,
   login,
-  user
+  user,
+  haveMessage
 });
 
 export default rootReducer;

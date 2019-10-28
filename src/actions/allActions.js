@@ -59,6 +59,14 @@ export const ChangeHisIndex = index => ({
 export const sort = () => ({
   type: SORT
 });
+export const setMessage = (message, title) => ({
+  type: 'SET_MESSAGE',
+  message,
+  title
+});
+export const reSetMessage = () => ({
+  type: 'RESET_MESSAGE'
+});
 export const register = (username, password, repassword, his) => dispatch => {
   dispatch({ type: 'DOING' });
   return fetch('https://khaicaro.herokuapp.com/user/register', {
@@ -71,18 +79,18 @@ export const register = (username, password, repassword, his) => dispatch => {
       const result = JSON.parse(res);
       dispatch({ type: 'DONE' });
       if (result.code === 1) {
-        alert('Đăng ký thành công');
         his.push('/login');
+        dispatch(setMessage('thanh cong', 'thang cong'));
       } else {
-        alert('Đăng ký thành công');
+        dispatch(setMessage('that bai', 'thang cong'));
         his.push('/reghister');
       }
     })
     .catch(e => {});
 };
-export const login = (username, password, his) => dispatch => {
+export const login = (username, password) => dispatch => {
   dispatch({ type: 'SET_LOGIN', index: 1 });
-  console.log('doing');
+  console.log('logining ....');
   return fetch('https://khaicaro.herokuapp.com/user/login', {
     method: 'POST',
     body: JSON.stringify({ username, password }),
@@ -94,24 +102,18 @@ export const login = (username, password, his) => dispatch => {
       return res.json();
     })
     .then(res => {
-      console.log(res);
       const result = JSON.parse(res);
-
+      console.log('done login ....', result);
       if (result.code === 1) {
         dispatch({ type: 'User_add', user: result.user, token: result.token });
-        his.push('/home');
-        alert('Đăng nhập thành công');
+        dispatch(setMessage('Đăng nhập thành công', 'THÀNH CÔNG'));
       } else {
-        his.push('/login');
-        alert('Thất bại');
+        dispatch(setMessage('Đăng nhập không thành công', 'THẤT BẠI'));
       }
     })
-    .catch(e => {
-      console.log(e);
-    });
+    .catch(() => {});
 };
 export const logout = his => dispatch => {
-  console.log('djng');
   return fetch('https://khaicaro.herokuapp.com/user/logout')
     .then(res => {
       dispatch({ type: 'User_reset' });

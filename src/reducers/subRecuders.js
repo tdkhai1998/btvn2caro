@@ -123,7 +123,6 @@ export const login = (state = 0, action) => {
 export const user = (state = null, action) => {
   switch (action.type) {
     case 'User_add': {
-      console.log('ad vo ne', action.user, action.token);
       return {
         user: action.user,
         token: action.token
@@ -132,6 +131,18 @@ export const user = (state = null, action) => {
     case 'User_reset': {
       return null;
     }
+    default:
+      return state;
+  }
+};
+
+export const haveMessage = (state = [false], action) => {
+  switch (action.type) {
+    case 'SET_MESSAGE': {
+      return [true, action.message, action.title];
+    }
+    case 'RESET_MESSAGE':
+      return [false];
     default:
       return state;
   }

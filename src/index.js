@@ -1,5 +1,4 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import { Container, Row, Col } from 'react-bootstrap';
 import React from 'react';
 import thunk from 'redux-thunk';
 import ReactDOM from 'react-dom';
@@ -7,27 +6,53 @@ import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import './index.css';
-
 import * as serviceWorker from './serviceWorker';
 import rootReducers from './reducers/rootReducer';
 import Game from './Components/Game';
 import LoginForm from './container/loginContainer';
 import RegisterForm from './container/registerContainer';
 import Home from './container/homeContainer';
-
 import mid from './middleWare';
 
-const store = createStore(rootReducers, applyMiddleware(thunk, mid));
-console.log(store.getState());
+const loadState = () => {
+  try {
+    const serializedState = localStorage.getItem('state');
+    if (serializedState === null) {
+      return undefined;
+    }
+    return JSON.parse(serializedState);
+  } catch (e) {
+    return undefined;
+  }
+};
+
+const saveState = state => {
+  try {
+    const serializedState = JSON.stringify(state);
+    localStorage.setItem('state', serializedState);
+  } catch (e) {
+    // Ignore write errors;
+  }
+};
+
+const peristedState = loadState();
+
+const store = createStore(
+  rootReducers,
+  peristedState,
+  applyMiddleware(thunk, mid)
+);
+store.subscribe(() => {
+  saveState(store.getState());
+});
+
 const a = (
   <BrowserRouter>
     <Provider store={store}>
       <Switch>
-        <Route exact path="/Game">
-          <Game />
-        </Route>
         <Route path="/register" component={RegisterForm} />
         <Route path="/login" component={LoginForm} />
+        <Route exact path="/Game" component={Game} />
         <Route path="/home" component={Home} />
         <Route path="/">
           <Redirect to="/home" />

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Navbar, Nav } from 'react-bootstrap';
+import { Navbar } from 'react-bootstrap';
 
 const NavBar = () => {
   return (
@@ -8,14 +8,12 @@ const NavBar = () => {
       <Navbar.Brand href="/home">React-Bootstrap</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="mr-auto">
-          <Nav.Link>
-            <Link to="home">Home</Link>
-          </Nav.Link>
-          <Nav.Link>
-            <Link to="game">Board</Link>
-          </Nav.Link>
-        </Nav>
+        <Link to="/home" className="nav-link">
+          Home
+        </Link>
+        <Link to="/game" className="nav-link">
+          Game
+        </Link>
       </Navbar.Collapse>
     </Navbar>
   );
