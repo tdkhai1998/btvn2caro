@@ -13,6 +13,7 @@ import LoginForm from './container/loginContainer';
 import RegisterForm from './container/registerContainer';
 import Home from './container/homeContainer';
 import mid from './middleWare';
+import TEST from './container/infoContainer';
 
 const loadState = () => {
   try {
@@ -45,7 +46,7 @@ const store = createStore(
 store.subscribe(() => {
   saveState(store.getState());
 });
-
+console.log('./', store.getState());
 const a = (
   <BrowserRouter>
     <Provider store={store}>
@@ -54,6 +55,7 @@ const a = (
         <Route path="/login" component={LoginForm} />
         <Route exact path="/Game" component={Game} />
         <Route path="/home" component={Home} />
+        <Route path="/teste" component={TEST} />
         <Route path="/">
           <Redirect to="/home" />
         </Route>

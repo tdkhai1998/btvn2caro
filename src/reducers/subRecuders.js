@@ -104,7 +104,7 @@ export const isFetching = (state = false, action) => {
       return false;
     }
     case 'DOING': {
-      console.log('doinh');
+      console.log('doing');
       return true;
     }
     default:
@@ -130,6 +130,28 @@ export const user = (state = null, action) => {
     }
     case 'User_reset': {
       return null;
+    }
+    default:
+      return state;
+  }
+};
+const initialInfoUser = {
+  email: '',
+  hoTen: '',
+  gioiTinh: '',
+  ngaySinh: '',
+  avatar: ''
+};
+export const infoUser = (state = initialInfoUser, action) => {
+  switch (action.type) {
+    case 'Add_info': {
+      return { ...state, avatar: action.url };
+    }
+    case 'update_info': {
+      return { ...state, ...action.user };
+    }
+    case 'reset_info': {
+      return initialInfoUser;
     }
     default:
       return state;

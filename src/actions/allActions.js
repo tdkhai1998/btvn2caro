@@ -1,3 +1,4 @@
+import { Headers } from 'node-fetch';
 import {
   SQUARES,
   WINNER_LINE,
@@ -67,6 +68,36 @@ export const setMessage = (message, title) => ({
 export const reSetMessage = () => ({
   type: 'RESET_MESSAGE'
 });
+export const loadInfo = () => (dispatch, getState) => {
+  dispatch({ type: 'DOING' });
+  const state = getState();
+  const myHeaders = new Headers();
+  myHeaders.append('Authorization', 'Bearer ' + state.user.token);
+  return fetch('https://khaicaro.herokuapp.com/me', { headers: myHeaders })
+    .then(res => {
+      console.log(res);
+
+      try {
+        return res.json();
+      } catch (e) {
+        return res;
+      }
+    })
+    .then(res => {
+      console.log(res);
+      const result = JSON.parse(res);
+      dispatch({ type: 'DONE' });
+      console.log(result);
+      if (result.code === 1) {
+        dispatch(setMessage('thanh cong', 'thang cong'));
+      } else {
+        dispatch(setMessage('that bai', 'thang cong'));
+      }
+    })
+    .catch(e => {
+      console.log(e);
+    });
+};
 export const register = (username, password, repassword, his) => dispatch => {
   dispatch({ type: 'DOING' });
   return fetch('https://khaicaro.herokuapp.com/user/register', {
@@ -90,7 +121,7 @@ export const register = (username, password, repassword, his) => dispatch => {
 };
 export const login = (username, password) => dispatch => {
   dispatch({ type: 'SET_LOGIN', index: 1 });
-  console.log('logining ....');
+  console.log('logining ....', username, password);
   return fetch('https://khaicaro.herokuapp.com/user/login', {
     method: 'POST',
     body: JSON.stringify({ username, password }),
@@ -121,7 +152,10 @@ export const logout = his => dispatch => {
     })
     .then(res => {
       const result = JSON.parse(res);
+
       if (result.code === 1) {
+        console.log('reset');
+        dispatch({ type: 'reset_info' });
         his.push('/login');
       }
     })

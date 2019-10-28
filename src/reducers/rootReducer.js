@@ -1,26 +1,8 @@
 import { combineReducers } from 'redux';
-import {
-  squares,
-  turn,
-  winnerLine,
-  isSorted,
-  history,
-  isFetching,
-  login,
-  user,
-  haveMessage
-} from './subRecuders';
+import * as subRecuders from './subRecuders';
 
 const rootReducer = combineReducers({
-  squares,
-  turn,
-  winnerLine,
-  isSorted,
-  history,
-  isFetching,
-  login,
-  user,
-  haveMessage
+  ...subRecuders
 });
 
 export default rootReducer;
