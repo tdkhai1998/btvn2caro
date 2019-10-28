@@ -1,10 +1,11 @@
 import React from 'react';
-import { Table, Button } from 'react-bootstrap';
+import { Table, Button, Spinner } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import NavBar from './Nav';
 
 export default function Home(props) {
-  const { logout2, history, user } = props;
+  const { logout2, history, user, isFetching } = props;
+  console.log(isFetching);
   const style = {
     background: 'gray',
     margin: '0 auto',
@@ -28,8 +29,9 @@ export default function Home(props) {
                 <Button
                   style={{ margin: '0 auto' }}
                   onClick={() => logout2(history)}
+                  disabled={isFetching}
                 >
-                  LOGOUT
+                  {isFetching && <Spinner animation="border" />} LOGOUT
                 </Button>
               </td>
             </tr>

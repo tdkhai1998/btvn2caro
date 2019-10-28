@@ -70,13 +70,15 @@ export const reSetMessage = () => ({
 });
 export const loadInfo = () => (dispatch, getState) => {
   dispatch({ type: 'DOING' });
-  const state = getState();
-  const myHeaders = new Headers();
-  myHeaders.append('Authorization', 'Bearer ' + state.user.token);
-  return fetch('https://khaicaro.herokuapp.com/me', { headers: myHeaders })
+  return fetch('https://caroserver.herokuapp.com/me', {
+    method: 'GET',
+    headers: new Headers({
+      Authorization: `Bearer ${getState().user.token}`,
+      'Content-Type': 'application/x-www-form-urlencoded'
+    })
+  })
     .then(res => {
-      console.log(res);
-
+      console.log('...', res);
       try {
         return res.json();
       } catch (e) {
@@ -84,12 +86,11 @@ export const loadInfo = () => (dispatch, getState) => {
       }
     })
     .then(res => {
-      console.log(res);
       const result = JSON.parse(res);
       dispatch({ type: 'DONE' });
-      console.log(result);
       if (result.code === 1) {
-        dispatch(setMessage('thanh cong', 'thang cong'));
+        console.log(result.data);
+        dispatch({ type: 'update_info', user: result.data });
       } else {
         dispatch(setMessage('that bai', 'thang cong'));
       }
@@ -145,6 +146,7 @@ export const login = (username, password) => dispatch => {
     .catch(() => {});
 };
 export const logout = his => dispatch => {
+  dispatch({ type: 'DOING' });
   return fetch('https://khaicaro.herokuapp.com/user/logout')
     .then(res => {
       dispatch({ type: 'User_reset' });
@@ -155,6 +157,7 @@ export const logout = his => dispatch => {
 
       if (result.code === 1) {
         console.log('reset');
+        dispatch({ type: 'DONE' });
         dispatch({ type: 'reset_info' });
         his.push('/login');
       }

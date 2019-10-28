@@ -4,7 +4,8 @@ import Home from '../Components/Home';
 
 const mapStateToProps = state => {
   return {
-    user: state.user
+    user: state.user,
+    isFetching: state.isFetching
   };
 };
 const mapDispatchToProps = dispatch => ({

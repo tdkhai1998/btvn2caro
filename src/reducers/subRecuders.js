@@ -136,10 +136,10 @@ export const user = (state = null, action) => {
   }
 };
 const initialInfoUser = {
-  email: '',
-  hoTen: '',
-  gioiTinh: '',
-  ngaySinh: '',
+  username: '',
+  hoten: '',
+  gioitinh: '',
+  ngaysinh: '',
   avatar: ''
 };
 export const infoUser = (state = initialInfoUser, action) => {

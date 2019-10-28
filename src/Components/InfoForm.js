@@ -6,6 +6,7 @@ import ImageUpLoad from '../container/inputImageContainer';
 
 export default function FormsPage(props) {
   const { infoUser, updateInfo, loadInfor } = props;
+  console.log(infoUser);
   const style = {
     background: 'azure',
     padding: 20,
@@ -29,6 +30,9 @@ export default function FormsPage(props) {
     updateInfo(infoUser);
     console.log(infoUser);
   };
+  const changeHoTen = e => updateInfo({ hoten: e.target.value });
+  const changeGioiTinh = e =>
+    updateInfo({ gioitinh: e.target.value === 'Nam' });
   return (
     <Row>
       <Col lg="12" style={ColStyle}>
@@ -45,7 +49,7 @@ export default function FormsPage(props) {
           <Form.Group as={Row}>
             <ImageUpLoad id="url" />
           </Form.Group>
-          <Form.Group as={Row} controlId="email">
+          <Form.Group as={Row} controlId="username">
             <Form.Label column sm="2">
               Email
             </Form.Label>
@@ -53,19 +57,24 @@ export default function FormsPage(props) {
               <Form.Control
                 plaintext
                 readOnly
-                defaultValue="email@example.com"
+                defaultValue={infoUser.username}
               />
             </Col>
           </Form.Group>
-          <Form.Group as={Row} controlId="hoTen">
+          <Form.Group as={Row} controlId="hoten">
             <Form.Label column sm={2}>
               Họ và tên
             </Form.Label>
             <Col sm={10}>
-              <Form.Control type="text" placeholder="Tên" className="shadow" />
+              <Form.Control
+                type="text"
+                className="shadow"
+                value={infoUser.hoten}
+                onChange={e => changeHoTen(e)}
+              />
             </Col>
           </Form.Group>
-          <Form.Group as={Row} controlId="gioiTinh">
+          <Form.Group as={Row} controlId="gioitinh">
             <Form.Label column sm={2}>
               Giới tính
             </Form.Label>
@@ -75,6 +84,8 @@ export default function FormsPage(props) {
                 placeholder="Tên"
                 as="select"
                 className="shadow"
+                value={infoUser ? 'Nam' : 'Nữ'}
+                onChange={e => changeGioiTinh(e)}
               >
                 <option>Nam</option>
                 <option>Nữ</option>
@@ -87,12 +98,12 @@ export default function FormsPage(props) {
             </Form.Label>
             <Col sm={6} style={{ padding: 0 }}>
               <DatePicker
-                id="ngaySinh"
+                id="ngaysinh"
                 className="shadow"
                 readOnly
                 style={DateStyle}
                 as={Form.Group}
-                selected={new Date()}
+                selected="01/01/2000"
               />
             </Col>
             <Col sm={4}>
