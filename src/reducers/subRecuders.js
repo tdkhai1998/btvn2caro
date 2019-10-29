@@ -140,7 +140,8 @@ const initialInfoUser = {
   hoten: '',
   gioitinh: '',
   ngaysinh: '',
-  avatar: ''
+  avatar: '',
+  fetched: false
 };
 export const infoUser = (state = initialInfoUser, action) => {
   switch (action.type) {
@@ -165,6 +166,14 @@ export const haveMessage = (state = [false], action) => {
     }
     case 'RESET_MESSAGE':
       return [false];
+    default:
+      return state;
+  }
+};
+export const showModal = (state = false, action) => {
+  switch (action.type) {
+    case 'modal_set':
+      return action.showModal;
     default:
       return state;
   }

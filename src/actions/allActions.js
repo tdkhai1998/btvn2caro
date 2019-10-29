@@ -68,9 +68,72 @@ export const setMessage = (message, title) => ({
 export const reSetMessage = () => ({
   type: 'RESET_MESSAGE'
 });
+const hostUrl = 'http://localhost:8080';
+export const changePassword = (oldPass, newPass) => (dispatch, getState) => {
+  dispatch({ type: 'DOING' });
+  const { user } = getState();
+  console.log(user);
+  const url = `${hostUrl}/user/changePassword`;
+  const options = {
+    method: 'POST',
+    body: JSON.stringify({ oldPass, newPass, username: user.user }),
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+  return fetch(url, options)
+    .then(res => {
+      dispatch({ type: 'DONE' });
+      return res.json();
+    })
+    .then(json => {
+      const result = JSON.parse(json);
+      if (result.code === 1) {
+        dispatch({ type: 'modal_set', showModal: false });
+        dispatch(setMessage('Cập nhật password thành công', 'Thành Công'));
+      } else {
+        dispatch(
+          setMessage(
+            `Cập nhật password không thành công  ${result.message}`,
+            'Thất bại'
+          )
+        );
+      }
+    })
+    .catch(e => {
+      dispatch(
+        setMessage(
+          `Cập nhật password không thành công  ${e.message}`,
+          'Thất bại'
+        )
+      );
+      dispatch({ type: 'DONE' });
+    });
+};
+export const userPut = entityUser => (dispatch, getState) => {
+  dispatch({ type: 'DOING' });
+  const url = `http://localhost:8080/user/${entityUser.id}`;
+  const options = {
+    method: 'PUT',
+    body: JSON.stringify(entityUser),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+  return fetch(url, options)
+    .then(res => {
+      dispatch({ type: 'DONE' });
+      console.log(res);
+    })
+    .catch(e => {
+      console.log(e);
+      dispatch({ type: 'DONE' });
+    });
+};
 export const loadInfo = () => (dispatch, getState) => {
   dispatch({ type: 'DOING' });
-  return fetch('https://caroserver.herokuapp.com/me', {
+  return fetch('http://localhost:8080/me', {
     method: 'GET',
     headers: new Headers({
       Authorization: `Bearer ${getState().user.token}`,
@@ -89,6 +152,8 @@ export const loadInfo = () => (dispatch, getState) => {
       const result = JSON.parse(res);
       dispatch({ type: 'DONE' });
       if (result.code === 1) {
+        console.log(result.data);
+        result.data.fetched = true;
         console.log(result.data);
         dispatch({ type: 'update_info', user: result.data });
       } else {

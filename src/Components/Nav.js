@@ -11,8 +11,11 @@ const NavBar = () => {
         <Link to="/home" className="nav-link">
           Home
         </Link>
-        <Link to="/game" className="nav-link">
+        <Link to="/test" className="nav-link">
           Game
+        </Link>
+        <Link to="/profile" className="nav-link">
+          Me
         </Link>
       </Navbar.Collapse>
     </Navbar>

@@ -13,7 +13,8 @@ import LoginForm from './container/loginContainer';
 import RegisterForm from './container/registerContainer';
 import Home from './container/homeContainer';
 import mid from './middleWare';
-import TEST from './container/infoContainer';
+import InfoForm from './container/infoContainer';
+import MyModal from './container/changePassContainer';
 
 const loadState = () => {
   try {
@@ -55,9 +56,12 @@ const a = (
         <Route path="/login" component={LoginForm} />
         <Route exact path="/Game" component={Game} />
         <Route path="/home" component={Home} />
-        <Route path="/teste" component={TEST} />
+        <Route path="/profile" component={InfoForm} />
+        <Route path="/test">
+          <MyModal child={<LoginForm style={{ padding: 0, margin: 0 }} />} />
+        </Route>
         <Route path="/">
-          <Redirect to="/home" />
+          <Redirect to="/test" />
         </Route>
       </Switch>
     </Provider>

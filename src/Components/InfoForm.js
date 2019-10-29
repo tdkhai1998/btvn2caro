@@ -1,40 +1,74 @@
 import React from 'react';
-import { Form, Row, Col, Button } from 'react-bootstrap';
+import { Form, Row, Col, Button, Spinner, Modal, Image } from 'react-bootstrap';
 import DatePicker from './DatePicker/index';
 import NavBar from './Nav';
+import ChangePass from '../container/changePassContainer';
 import ImageUpLoad from '../container/inputImageContainer';
+import Popup from './Popup/popup';
 
+const style = {
+  background: 'azure',
+  padding: 20,
+  borderRadius: 5,
+  boxShadow: '10px 13px 123px -1px rgba(112,106,112,1)',
+  textAlign: 'left'
+};
+const ColStyle = {
+  marginBottom: 50
+};
+const DateStyle = {
+  margin: 15
+};
 export default function FormsPage(props) {
-  const { infoUser, updateInfo, loadInfor } = props;
+  const {
+    infoUser,
+    updateInfo,
+    loadInfor,
+    isFetching,
+    userPut,
+    showModal,
+    message,
+    closePopup
+  } = props;
   console.log(infoUser);
-  const style = {
-    background: 'azure',
-    padding: 20,
-    borderRadius: 5,
-    boxShadow: '10px 13px 123px -1px rgba(112,106,112,1)',
-    textAlign: 'left'
-  };
-  const ColStyle = {
-    marginBottom: 50
-  };
-  const DateStyle = {
-    margin: 15
-  };
   const uploadFileButton = event => {
     event.preventDefault();
     const dataLength = event.target.length;
     for (let i = 0; i < dataLength; i += 1) {
       infoUser[event.target[i].id] = event.target[i].value;
     }
-    loadInfor();
     updateInfo(infoUser);
-    console.log(infoUser);
+    userPut(infoUser);
   };
   const changeHoTen = e => updateInfo({ hoten: e.target.value });
-  const changeGioiTinh = e =>
+  const changeGioiTinh = e => {
+    console.log(e.target.value);
     updateInfo({ gioitinh: e.target.value === 'Nam' });
+  };
+  if (!infoUser.fetched) loadInfor();
+  if (message[0])
+    return (
+      <div>
+        <Popup
+          text={message[1]}
+          title={message[2]}
+          closePopup={() => {
+            closePopup();
+          }}
+        />
+      </div>
+    );
   return (
     <Row>
+      <ChangePass />
+      <Modal show={isFetching} style={{ margin: 'auto' }}>
+        <Modal.Body>
+          <Image
+            src="loading.gif"
+            style={{ width: 'auto', height: 'auto', paddingLeft: 138 }}
+          />
+        </Modal.Body>
+      </Modal>
       <Col lg="12" style={ColStyle}>
         <NavBar />
       </Col>
@@ -84,7 +118,7 @@ export default function FormsPage(props) {
                 placeholder="Tên"
                 as="select"
                 className="shadow"
-                value={infoUser ? 'Nam' : 'Nữ'}
+                value={infoUser.gioitinh ? 'Nam' : 'Nữ'}
                 onChange={e => changeGioiTinh(e)}
               >
                 <option>Nam</option>
@@ -96,7 +130,7 @@ export default function FormsPage(props) {
             <Form.Label column sm={2}>
               Ngày sinh
             </Form.Label>
-            <Col sm={6} style={{ padding: 0 }}>
+            <Col sm={10} style={{ padding: 0 }}>
               <DatePicker
                 id="ngaysinh"
                 className="shadow"
@@ -106,12 +140,37 @@ export default function FormsPage(props) {
                 selected="01/01/2000"
               />
             </Col>
+          </Form.Group>
+          <Form.Group as={Row}>
+            <Col sm={3}>
+              <Button
+                className="shadow"
+                variant="primary"
+                disabled={isFetching}
+                onClick={() => loadInfor()}
+              >
+                REFRESH
+              </Button>
+            </Col>
+            <Col sm={5}>
+              <Button
+                className="shadow"
+                variant="primary"
+                onClick={() => showModal(true)}
+                style={{ display: 'inline', margin: '0 auto' }}
+                disabled={isFetching}
+              >
+                CHANGE PASSWORD
+              </Button>
+            </Col>
             <Col sm={4}>
+              {isFetching && <Spinner animation="border" />}
               <Button
                 className="shadow"
                 variant="primary"
                 type="submit"
                 style={{ display: 'inline', float: 'right' }}
+                disabled={isFetching}
               >
                 CẬP NHẬT
               </Button>
