@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Modal, Form, Spinner } from 'react-bootstrap';
+import { Button, Modal, Form } from 'react-bootstrap';
 
 class myModal extends React.Component {
   constructor(props) {

@@ -15,6 +15,7 @@ import Home from './container/homeContainer';
 import mid from './middleWare';
 import InfoForm from './container/infoContainer';
 import MyModal from './container/changePassContainer';
+import Facebook from './Components/facebook';
 
 const loadState = () => {
   try {
@@ -57,6 +58,8 @@ const a = (
         <Route exact path="/Game" component={Game} />
         <Route path="/home" component={Home} />
         <Route path="/profile" component={InfoForm} />
+        <Route path="/facebook" component={Facebook} />
+
         <Route path="/test">
           <MyModal child={<LoginForm style={{ padding: 0, margin: 0 }} />} />
         </Route>

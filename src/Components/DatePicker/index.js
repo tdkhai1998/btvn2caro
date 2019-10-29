@@ -1,17 +1,17 @@
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
-import React, { useState } from 'react';
+import React from 'react';
 import './index.css';
 
 const PickerDate = props => {
-  const [startDate, setStartDate] = useState(new Date('01/01/1900'));
-  const { id } = props;
+  const { id, value, onChange } = props;
+  console.log(value);
   return (
     <DatePicker
       id={id}
       showPopperArrow={false}
-      selected={startDate}
-      onChange={date => setStartDate(date)}
+      selected={new Date(value)}
+      onChange={date => onChange(date)}
     />
   );
 };

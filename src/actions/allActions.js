@@ -191,7 +191,6 @@ export const login = (username, password) => dispatch => {
   return fetch('https://khaicaro.herokuapp.com/user/login', {
     method: 'POST',
     body: JSON.stringify({ username, password }),
-
     headers: { 'Content-Type': 'application/json' }
   })
     .then(res => {

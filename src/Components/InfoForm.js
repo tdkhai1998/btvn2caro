@@ -6,6 +6,8 @@ import ChangePass from '../container/changePassContainer';
 import ImageUpLoad from '../container/inputImageContainer';
 import Popup from './Popup/popup';
 
+const dateFormat = require('dateformat');
+
 const style = {
   background: 'azure',
   padding: 20,
@@ -45,6 +47,10 @@ export default function FormsPage(props) {
     console.log(e.target.value);
     updateInfo({ gioitinh: e.target.value === 'Nam' });
   };
+  const changeNgaySinh = e =>{
+    console.log(e);
+    //updateInfo({ ngaysinh: dateFormat(e, 'MM/DD/YYYY') });
+  }
   if (!infoUser.fetched) loadInfor();
   if (message[0])
     return (
@@ -136,8 +142,9 @@ export default function FormsPage(props) {
                 className="shadow"
                 readOnly
                 style={DateStyle}
+                value={infoUser.ngaysinh}
+                onChange={e => changeNgaySinh(e)}
                 as={Form.Group}
-                selected="01/01/2000"
               />
             </Col>
           </Form.Group>
