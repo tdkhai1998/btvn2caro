@@ -47,10 +47,10 @@ export default function FormsPage(props) {
     console.log(e.target.value);
     updateInfo({ gioitinh: e.target.value === 'Nam' });
   };
-  const changeNgaySinh = e =>{
+  const changeNgaySinh = e => {
     console.log(e);
-    //updateInfo({ ngaysinh: dateFormat(e, 'MM/DD/YYYY') });
-  }
+    updateInfo({ ngaysinh: dateFormat(e, 'mm/dd/yyyy') });
+  };
   if (!infoUser.fetched) loadInfor();
   if (message[0])
     return (
