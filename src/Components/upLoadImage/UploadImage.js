@@ -10,9 +10,8 @@ const ImageUpload = props => {
     const reader = new FileReader();
     const file = e.target.files[0];
     reader.onloadend = () => {
-      upLoadImage(reader.result);
+      upLoadImage({ avatar: reader.result });
     };
-
     reader.readAsDataURL(file);
   };
 

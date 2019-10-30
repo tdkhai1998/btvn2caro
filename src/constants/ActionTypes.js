@@ -19,3 +19,9 @@ export const HISTORY = {
   CHANGE_INDEX: 'dfghjfghfddgh'
 };
 export const SORT = 'dfg';
+
+export const INFO_USRER = {
+  ADD: 'Add_info',
+  UPDATE: 'update_info',
+  RESET: 'reset_info'
+};

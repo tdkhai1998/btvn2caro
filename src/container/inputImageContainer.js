@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import UploadImage from '../Components/upLoadImage/UploadImage';
+import { INFO_USRER } from '../constants/ActionTypes';
 
 const mapStateToProps = state => ({
   imagePreviewUrl: state.infoUser ? state.infoUser.avatar : ''

@@ -28,6 +28,7 @@ export const winnerLine = (state = { arr: [], dir: -1 }, action) => {
       return state;
   }
 };
+
 export const squares = (state = initialState, action) => {
   switch (action.type) {
     case types.SQUARES.ADD: {
@@ -144,8 +145,9 @@ const initialInfoUser = {
   fetched: false
 };
 export const infoUser = (state = initialInfoUser, action) => {
+  const TYPE = types.INFO_USRER;
   switch (action.type) {
-    case 'Add_info': {
+    case TYPE.ADD: {
       return { ...state, avatar: action.url };
     }
     case 'update_info': {

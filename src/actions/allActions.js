@@ -6,7 +6,6 @@ import {
   HISTORY,
   SORT
 } from '../constants/ActionTypes';
-
 const fetch = require('node-fetch');
 
 export const addToBoard = (index, turn) => ({
