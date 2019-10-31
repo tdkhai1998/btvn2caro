@@ -2,10 +2,10 @@ export const TYPE = {
   SET: 'turn_set',
   CHANGE: 'turn_change'
 };
-export const changeTurn = () => ({
+export const ChangeTurn = () => ({
   type: TYPE.CHANGE
 });
-export const setTurn = turn => ({
+export const SetTurn = turn => ({
   type: TYPE.SET,
   turn
 });
