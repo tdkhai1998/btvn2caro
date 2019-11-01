@@ -2,20 +2,25 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import thunk from 'redux-thunk';
 import ReactDOM from 'react-dom';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import './index.css';
-import * as serviceWorker from './serviceWorker';
-import rootReducers from './reducers/rootReducer';
-import Game from './Components/Game';
-import LoginForm from './container/loginContainer';
-import RegisterForm from './container/registerContainer';
-import Home from './container/homeContainer';
 import mid from './middleWare';
-import InfoForm from './container/infoContainer';
-import MyModal from './container/changePassContainer';
-import Facebook from './Components/facebook';
+import * as serviceWorker from './serviceWorker';
+// import rootReducers from './reducers/rootReducer';
+
+// import Game from './Components/Game';
+// import LoginForm from './container/loginContainer';
+// import RegisterForm from './container/registerContainer';
+// import Home from './container/homeContainer';
+// import InfoForm from './container/infoContainer';
+// import MyModal from './container/changePassContainer';
+// import Facebook from './Components/facebook';
+
+import { Game, Register, Login, Home, Profile, Facebook } from './React';
+import rootReducer from './Redux/rootReducer';
 
 const loadState = () => {
   try {
@@ -39,11 +44,13 @@ const saveState = state => {
 };
 
 const peristedState = loadState();
-
+const composeEnhancers = composeWithDevTools({
+  // Specify name here, actionsBlacklist, actionsCreators and other options if needed
+});
 const store = createStore(
-  rootReducers,
+  rootReducer,
   peristedState,
-  applyMiddleware(thunk, mid)
+  composeEnhancers(applyMiddleware(thunk, mid))
 );
 store.subscribe(() => {
   saveState(store.getState());
@@ -53,18 +60,14 @@ const a = (
   <BrowserRouter>
     <Provider store={store}>
       <Switch>
-        <Route path="/register" component={RegisterForm} />
-        <Route path="/login" component={LoginForm} />
-        <Route exact path="/Game" component={Game} />
+        <Route path="/register" component={Register} />
+        <Route path="/login" component={Login} />
+        <Route path="/game" component={Game} />
         <Route path="/home" component={Home} />
-        <Route path="/profile" component={InfoForm} />
+        <Route path="/profile" component={Profile} />
         <Route path="/facebook" component={Facebook} />
-
-        <Route path="/test">
-          <MyModal child={<LoginForm style={{ padding: 0, margin: 0 }} />} />
-        </Route>
         <Route path="/">
-          <Redirect to="/test" />
+          <Redirect to="/game" />
         </Route>
       </Switch>
     </Provider>

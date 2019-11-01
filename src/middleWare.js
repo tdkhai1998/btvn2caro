@@ -1,29 +1,30 @@
-import * as types from './constants/ActionTypes';
-import {
-  changeTurn,
-  winner,
-  addToHis,
-  changeBoardFromHis,
-  setTurn,
-  ChangeHisIndex,
-  RemoveWinner
-} from './actions/allActions';
+import Type from './Redux/Squares/type';
+import TypeHis from './Redux/History/type';
 import haveWinner from './helper';
+import {
+  ChangeTurn,
+  AddWinnerLine,
+  AddToHistory,
+  ChangeBoardFromHis,
+  ChangeIndexHistory,
+  SetTurn,
+  RemoveWinnerLine
+} from './Redux';
 
 export default store => next => action => {
-  if (action.type === types.SQUARES.ADD) {
+  if (action.type === Type.ADD) {
     const { squares, winnerLine } = store.getState();
     if (squares[action.index] === null && winnerLine.dir === -1) {
-      store.dispatch(changeTurn());
+      store.dispatch(ChangeTurn());
       squares[action.index] = { value: action.turn ? 'X' : 'O', dirMark: -1 };
       const result = haveWinner(squares, action.index);
       if (result !== false) {
-        store.dispatch(winner(result));
+        store.dispatch(AddWinnerLine(result));
       }
-      store.dispatch(addToHis(action.index, action.turn));
+      store.dispatch(AddToHistory(action.index, action.turn));
       next(action);
     }
-  } else if (action.type === types.HISTORY.REMOVE) {
+  } else if (action.type === TypeHis.REMOVE) {
     const { from, to } = action;
     let { history } = store.getState();
     const change =
@@ -36,11 +37,11 @@ export default store => next => action => {
             arr: history.arr.slice(from, to + 1),
             isRemove: false
           };
-    store.dispatch(changeBoardFromHis(change.arr, change.isRemove));
-    store.dispatch(ChangeHisIndex(to));
+    store.dispatch(ChangeBoardFromHis(change.arr, change.isRemove));
+    store.dispatch(ChangeIndexHistory(to));
     history = store.getState().history;
-    store.dispatch(setTurn(!history.arr[to].turn));
-    store.dispatch(RemoveWinner());
+    store.dispatch(SetTurn(!history.arr[to].turn));
+    store.dispatch(RemoveWinnerLine());
     next(action);
   } else {
     next(action);
