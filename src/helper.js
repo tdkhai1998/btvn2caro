@@ -1,5 +1,6 @@
 function countDirection(dir, i, square, width, height) {
   let count = 0;
+  console.log('ii', i);
   const turn = square[i].value;
   let block = 0;
   const mark = [];

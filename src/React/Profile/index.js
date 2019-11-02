@@ -36,7 +36,8 @@ const Profile = props => {
     loadInfor,
     isFetching,
     updateInfoUserFetch,
-    modalAppear
+    modalAppear,
+    fieldUpdate
   } = props;
   console.log('Profile:', props);
   const uploadFileButton = event => {
@@ -94,7 +95,7 @@ const Profile = props => {
           autoComplete="off"
         >
           <Form.Group as={Row}>
-            <UpLoadImage id="url" />
+            <UpLoadImage id="url" disabled={!fieldUpdate.avatar} />
           </Form.Group>
           <Form.Group as={Row} controlId="username">
             <Form.Label column sm="2">
@@ -114,6 +115,7 @@ const Profile = props => {
             </Form.Label>
             <Col sm={10}>
               <Form.Control
+                disabled={!fieldUpdate.hoten}
                 type="text"
                 className="shadow"
                 value={infoUser.hoten}
@@ -127,8 +129,8 @@ const Profile = props => {
             </Form.Label>
             <Col sm={10}>
               <Form.Control
+                disabled={!fieldUpdate.gioitinh}
                 type="text"
-                placeholder="Tên"
                 as="select"
                 className="shadow"
                 value={infoUser.gioitinh ? 'Nam' : 'Nữ'}
@@ -145,6 +147,7 @@ const Profile = props => {
             </Form.Label>
             <Col sm={10} style={{ padding: 0 }}>
               <DatePicker
+                disabled={!fieldUpdate.ngaysinh}
                 id="ngaysinh"
                 className="shadow"
                 readOnly
@@ -172,7 +175,7 @@ const Profile = props => {
                 variant="primary"
                 onClick={() => modalAppear()}
                 style={{ display: 'inline', margin: '0 auto' }}
-                disabled={isFetching}
+                disabled={isFetching || !fieldUpdate.password}
               >
                 CHANGE PASSWORD
               </Button>
@@ -198,7 +201,8 @@ const Profile = props => {
 
 const mapStateToProps = state => ({
   infoUser: state.infoUser,
-  isFetching: state.isFetching
+  isFetching: state.isFetching,
+  fieldUpdate: state.fieldUpdate
 });
 const mapDispatchToProps = dispatch => ({
   updateInfo: user => dispatch(updateInfoUserRedux(user)),

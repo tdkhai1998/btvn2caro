@@ -2,28 +2,45 @@ import React from 'react';
 import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
 import { connect } from 'react-redux';
-import { UpdateInfoUser, AddUser } from '../../Redux';
+import { facelogin } from '../../Redux-thunk';
 
 const createUser = data => {
+  console.log(data);
   const user = {};
-  user.username = data.email || data.id;
+  user.username = `fb-${data.email}` || data.id;
   user.hoten = data.name;
   user.ngaysinh = new Date(data.birthday);
   user.gioitinh = data.gender === 'male';
   user.role = 2;
   user.avatar = data.picture.data.url;
-  user.password = '';
+  user.password = '1';
+  console.log('user-cash', user);
+  return user;
+};
+const createUserGg = data => {
+  console.log(data);
+  const user = {};
+
+  const profile = data.profileObj;
+  user.username = `gg-${profile.email}`;
+  user.hoten = profile.name;
+  user.ngaysinh = new Date();
+  user.gioitinh = profile.gender ? profile.gender === 'male' : true;
+  user.role = 3;
+  user.avatar = profile.imageUrl;
+  user.password = '2';
   return user;
 };
 
 const Facebook = props => {
-  const { login } = props;
+  const { loginFace } = props;
   const responseFacebook = response => {
     const tempUser = createUser(response);
-    login(tempUser);
+    loginFace(tempUser);
   };
   const responseGoogle = res => {
-    console.log('gg', res);
+    const tempUser = createUserGg(res);
+    loginFace(tempUser);
   };
   return (
     <div>
@@ -47,9 +64,8 @@ const Facebook = props => {
 
 const mapStateToProps = () => ({});
 const mapDispatchToProps = dispatch => ({
-  login: user => {
-    dispatch(UpdateInfoUser(user));
-    dispatch(AddUser(user.email, ''));
+  loginFace: user => {
+    dispatch(facelogin(user));
   }
 });
 

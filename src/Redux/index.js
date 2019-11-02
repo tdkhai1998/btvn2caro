@@ -9,3 +9,4 @@ export * from './WinnerLine';
 export * from './History';
 export * from './InfoUser';
 export * from './UrlBack';
+export * from './FieldsUpdate';

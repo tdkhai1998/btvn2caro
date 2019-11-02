@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 
 import { history } from './History';
 import { infoUser } from './InfoUser';
+import { fieldUpdate } from './FieldsUpdate';
 import { isFetching } from './IsFetching';
 import { isSorted } from './IsSorted';
 import { message } from './Message';
@@ -15,6 +16,7 @@ import { urlBack } from './UrlBack';
 const rootReducer = combineReducers({
   history,
   infoUser,
+  fieldUpdate,
   isFetching,
   isSorted,
   message,

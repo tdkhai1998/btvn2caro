@@ -14,6 +14,9 @@ const NavBar = () => {
         <Link to="/test" className="nav-link">
           Game
         </Link>
+        <Link to="/online" className="nav-link">
+          Online
+        </Link>
         <Link to="/profile" className="nav-link">
           Me
         </Link>

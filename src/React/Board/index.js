@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { AddOneToBoad } from '../../Redux';
+import { AddOneToBoad, SetMessage } from '../../Redux';
 import Square from '../Square/index';
+import Popup from '../Popup';
 
 const Board = props => {
   const { onClick, squares, turn, winnerLine } = props;
@@ -24,6 +25,7 @@ const Board = props => {
     }
     row.push(
       <div key={i} className="board-row">
+        <Popup />
         {square}
       </div>
     );
@@ -36,7 +38,10 @@ const mapStateToProps = state => ({
   winnerLine: state.winnerLine
 });
 const mapDispatchToProps = dispatch => ({
-  onClick: (index, turn) => dispatch(AddOneToBoad(index, turn))
+  onClick: (index, turn) => {
+    if (!turn) return dispatch(AddOneToBoad(index, turn));
+    return dispatch(SetMessage('Bạn không thể đánh khi đến lượt của máy. Để đánh, Undo lại lúc đúng lượt của bạn'));
+  }
 });
 export default connect(
   mapStateToProps,

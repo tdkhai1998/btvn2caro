@@ -9,7 +9,7 @@ const Popup = props => {
   console.log(message);
   if (message.value) {
     return (
-      <div>
+      <div style={{ zIndex: 100 }}>
         <div id="popup" className="overlay">
           <div className="popup">
             <h2>{message.title}</h2>

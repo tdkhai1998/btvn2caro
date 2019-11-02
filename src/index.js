@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import './index.css';
 import mid from './middleWare';
 import * as serviceWorker from './serviceWorker';
+
 // import rootReducers from './reducers/rootReducer';
 
 // import Game from './Components/Game';
@@ -19,7 +20,15 @@ import * as serviceWorker from './serviceWorker';
 // import MyModal from './container/changePassContainer';
 // import Facebook from './Components/facebook';
 
-import { Game, Register, Login, Home, Profile, Facebook } from './React';
+import {
+  Game,
+  Register,
+  Login,
+  Home,
+  Profile,
+  Facebook,
+  GameOnline
+} from './React';
 import rootReducer from './Redux/rootReducer';
 
 const loadState = () => {
@@ -61,11 +70,12 @@ const a = (
     <Provider store={store}>
       <Switch>
         <Route path="/register" component={Register} />
-        <Route path="/login" component={Login} />
         <Route path="/game" component={Game} />
+        <Route path="/login" component={Login} />
         <Route path="/home" component={Home} />
         <Route path="/profile" component={Profile} />
         <Route path="/facebook" component={Facebook} />
+        <Route path="/online" component={GameOnline} />
         <Route path="/">
           <Redirect to="/game" />
         </Route>

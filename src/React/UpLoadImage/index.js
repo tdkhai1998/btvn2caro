@@ -5,7 +5,8 @@ import { UpdateInfoUser } from '../../Redux';
 import './index.css';
 
 const ImageUpload = props => {
-  const { imagePreviewUrl, upLoadImage, id } = props;
+  const { imagePreviewUrl, upLoadImage, id, disabled } = props;
+  console.log('update image?', disabled);
   const _handleImageChange = e => {
     e.preventDefault();
     const reader = new FileReader();
@@ -42,6 +43,7 @@ const ImageUpload = props => {
         </Form.Label>
         <Col sm={10}>
           <input
+            disabled={disabled}
             id={id}
             className="form-control shadow"
             type="file"

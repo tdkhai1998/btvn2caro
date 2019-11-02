@@ -3,7 +3,7 @@ import TYPE from './type';
 const initialInfoUser = {
   username: '',
   hoten: '',
-  gioitinh: '',
+  gioitinh: true,
   ngaysinh: '',
   avatar: '',
   fetched: false

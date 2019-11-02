@@ -13,9 +13,10 @@ class ChangePassword extends React.Component {
 
   onSubmit(e) {
     e.preventDefault();
-    const { change } = this.props;
+    const { change, closeModal } = this.props;
     const { newPass, oldPass } = this.state;
     change(oldPass, newPass);
+    closeModal();
   }
 
   close() {
