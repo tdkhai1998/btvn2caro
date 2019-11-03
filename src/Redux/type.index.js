@@ -1,0 +1,1 @@
+export { TypeGameMode } from './GameMode';

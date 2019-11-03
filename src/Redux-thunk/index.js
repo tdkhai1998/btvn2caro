@@ -1,20 +1,6 @@
 import fetch, { Headers } from 'node-fetch';
-import {
-  FetchDoing,
-  FetchDone,
-  ResetInfoUser,
-  AddUser,
-  SetMessage,
-  UpdateInfoUser,
-  HideModal,
-  SetUrlBack,
-  UpdateFields,
-  ResetFieldCanUpdate,
-  ResetUser
-} from '../Redux';
-// import { fieldUpdate } from '../Redux/FieldsUpdate';
-
-// import { UpdateFieldCanUpdate } from '../Redux/FieldsUpdate/action';
+import * as action from '../Redux';
+import { TypeGameMode } from '../Redux/GameMode';
 
 const config = require('../Config');
 
@@ -40,15 +26,15 @@ const FieldsCanUpdate = (username, dispatch) => {
     fields.password = false;
   }
   console.log(fields);
-  dispatch(UpdateFields(fields));
+  dispatch(action.UpdateFields(fields));
 };
 export const loadInfo = () => (dispatch, getState) => {
-  dispatch(FetchDoing());
+  dispatch(action.FetchDoing());
   console.log('LoadInfo ....');
   const { user } = getState();
   console.log(user);
   if (!user) {
-    dispatch(FetchDone());
+    dispatch(action.FetchDone());
   } else {
     return fetch(`${serverHost}/me`, {
       method: 'GET',
@@ -70,26 +56,26 @@ export const loadInfo = () => (dispatch, getState) => {
           FieldsCanUpdate(user.user, dispatch);
           console.log('data-fetch', result);
           result.data.gioitinh = result.data.gioitinh === 0;
-          dispatch(UpdateInfoUser(result.data));
+          dispatch(action.UpdateInfoUser(result.data));
         } else {
-          dispatch(UpdateInfoUser({ fetched: true }));
-          dispatch(SetMessage(result.error, 'THẤT BẠI'));
+          dispatch(action.UpdateInfoUser({ fetched: true }));
+          dispatch(action.SetMessage(result.error, 'THẤT BẠI'));
         }
       })
       .catch(e => {
         console.log('Loadinfoerr', e.message);
 
-        dispatch(SetMessage(e.message, 'LỖI'));
+        dispatch(action.SetMessage(e.message, 'LỖI'));
       })
       .finally(() => {
-        dispatch(UpdateInfoUser({ fetched: true }));
-        dispatch(FetchDone());
+        dispatch(action.UpdateInfoUser({ fetched: true }));
+        dispatch(action.FetchDone());
       });
   }
 };
 
-export const updateInfoUser = mess => (dispatch, getState) => {
-  dispatch(FetchDoing());
+export const updateInfoUser = () => (dispatch, getState) => {
+  dispatch(action.FetchDoing());
   console.log('update....');
   const { infoUser } = getState();
   const url = `${serverHost}/user`;
@@ -102,21 +88,23 @@ export const updateInfoUser = mess => (dispatch, getState) => {
   };
   return fetch(url, options)
     .then(() => {
-      dispatch(SetMessage('Cập nhật thông tin thành công', TITLE.SUCCESSFUL));
+      dispatch(
+        action.SetMessage('Cập nhật thông tin thành công', TITLE.SUCCESSFUL)
+      );
     })
     .catch(e => {
-      dispatch(SetMessage(e.message, 'LỖI'));
+      dispatch(action.SetMessage(e.message, 'LỖI'));
     })
     .finally(() => {
-      dispatch(FetchDone());
+      dispatch(action.FetchDone());
     });
 };
 export const logout = his => dispatch => {
-  dispatch(FetchDoing());
-  dispatch(FetchDone());
-  dispatch(ResetInfoUser());
-  dispatch(ResetUser());
-  dispatch(ResetFieldCanUpdate());
+  dispatch(action.FetchDoing());
+  dispatch(action.FetchDone());
+  dispatch(action.ResetInfoUser());
+  dispatch(action.ResetUser());
+  dispatch(action.ResetFieldCanUpdate());
   his.push('/login');
   // return fetch(`${serverHost}/user/logout`)
   //   .then(res => {
@@ -139,7 +127,7 @@ export const logout = his => dispatch => {
 };
 
 export const changePassword = (oldPass, newPass) => (dispatch, getState) => {
-  dispatch(FetchDoing());
+  dispatch(action.FetchDoing());
   const { user } = getState();
   const url = `${serverHost}/user/changePassword`;
   const options = {
@@ -157,11 +145,13 @@ export const changePassword = (oldPass, newPass) => (dispatch, getState) => {
     .then(json => {
       const result = JSON.parse(json);
       if (result.code === 1) {
-        dispatch(HideModal());
-        dispatch(SetMessage('Cập nhật password thành công', 'Thành Công'));
+        dispatch(action.HideModal());
+        dispatch(
+          action.SetMessage('Cập nhật password thành công', 'Thành Công')
+        );
       } else {
         dispatch(
-          SetMessage(
+          action.SetMessage(
             `Cập nhật password không thành công  ${result.message}`,
             'Thất bại'
           )
@@ -169,15 +159,15 @@ export const changePassword = (oldPass, newPass) => (dispatch, getState) => {
       }
     })
     .catch(e => {
-      dispatch(SetMessage(e.message, 'LỖI'));
+      dispatch(action.SetMessage(e.message, 'LỖI'));
     })
     .finally(() => {
-      dispatch(FetchDone());
+      dispatch(action.FetchDone());
     });
 };
 
 export const login = (username, password, role) => dispatch => {
-  dispatch(FetchDoing());
+  dispatch(action.FetchDoing());
   console.log('login....', username, password);
   const url = `${serverHost}/user/login`;
   return fetch(url, {
@@ -190,18 +180,18 @@ export const login = (username, password, role) => dispatch => {
       const result = JSON.parse(res);
       console.log(result);
       if (result.code === 1) {
-        dispatch(AddUser(result.user, result.token));
-        dispatch(SetMessage('Đăng nhập thành công', 'THÀNH CÔNG'));
-        dispatch(SetUrlBack('/home'));
+        dispatch(action.AddUser(result.user, result.token));
+        dispatch(action.SetMessage('Đăng nhập thành công', 'THÀNH CÔNG'));
+        dispatch(action.SetUrlBack('/home'));
       } else {
-        dispatch(SetMessage('Đăng nhập không thành công', 'THẤT BẠI'));
+        dispatch(action.SetMessage('Đăng nhập không thành công', 'THẤT BẠI'));
       }
     })
     .catch(e => {
-      dispatch(SetMessage(e.message, 'LỖI'));
+      dispatch(action.SetMessage(e.message, 'LỖI'));
     })
     .finally(() => {
-      dispatch(FetchDone());
+      dispatch(action.FetchDone());
     });
 };
 
@@ -211,7 +201,7 @@ export const register = (
   repassword,
   islogin
 ) => dispatch => {
-  dispatch(FetchDoing());
+  dispatch(action.FetchDoing());
   console.log('register...', username, password, repassword);
 
   return fetch(`${serverHost}/user/register`, {
@@ -230,22 +220,48 @@ export const register = (
       }
       const result = JSON.parse(res);
       if (result.code === 1) {
-        dispatch(SetMessage(result.message, TITLE.SUCCESSFUL));
-        dispatch(SetUrlBack('/login'));
-      } else dispatch(SetMessage(result.message, TITLE.FAILED));
+        dispatch(action.SetMessage(result.message, TITLE.SUCCESSFUL));
+        dispatch(action.SetUrlBack('/login'));
+      } else dispatch(action.SetMessage(result.message, TITLE.FAILED));
     })
     .catch(e => {
-      dispatch(SetMessage(e.message, TITLE.ERROR));
+      dispatch(action.SetMessage(e.message, TITLE.ERROR));
     })
     .finally(() => {
-      dispatch(FetchDone());
+      dispatch(action.FetchDone());
     });
 };
 export const facelogin = user => dispatch => {
   const { username, password } = user;
-  dispatch(UpdateInfoUser(user));
+  dispatch(action.UpdateInfoUser(user));
   dispatch(register(username, password, password, true));
 
   //
   // dispatch(updateInfoUser(false));
+};
+
+export const serveSocket = () => (dispatch, getState) => {
+  let socket = null;
+  let yourTurn;
+  dispatch(action.FetchDoing());
+  dispatch(action.StartSocketIO());
+  while (!socket) {
+    socket = getState().socketIO.socket;
+  }
+  socket.on('get-room', (room, index) => {
+    yourTurn = index === 1;
+    dispatch(action.SetRoomSocket(room));
+    dispatch(action.UpdateGameMode({ yourTurn: index === 1 }));
+  });
+  socket.on('have-enough', id => {
+    dispatch(action.UpdateGameMode({ mode: TypeGameMode.modeType.Online }));
+    dispatch(action.FetchDone());
+    dispatch(
+      action.UpdateGameMode({ mode: action.TypeGameMode.modeType.Online })
+    );
+    console.log('rủ rồi chơi thôi', id);
+  });
+  socket.on('play', value => {
+    dispatch(action.AddOneToBoad(value, !yourTurn));
+  });
 };

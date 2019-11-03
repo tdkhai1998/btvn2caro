@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
 import {
   ResetBoard,
   SetTurn,
@@ -7,11 +8,20 @@ import {
   ReSetHistory,
   Sort,
   RemoveHistory,
-  CutHistory
+  TypeGameMode
 } from '../../Redux';
 
 const Controls = props => {
-  const { isSorted, turn, restart, sorted, history, undo, redo } = props;
+  const {
+    isSorted,
+    turn,
+    restart,
+    sorted,
+    history,
+    undo,
+    redo,
+    gameMode
+  } = props;
   console.log(
     history.index,
     history.arr.length,
@@ -39,6 +49,7 @@ const Controls = props => {
           UNDO
         </button>
         <button
+          hidden={gameMode.mode === TypeGameMode.modeType.Online}
           disabled={history.index === history.arr.length - 1}
           type="button"
           className="button"
@@ -54,7 +65,8 @@ const Controls = props => {
 const mapStateToProps = state => ({
   isSorted: state.isSorted,
   turn: state.turn,
-  history: state.history
+  history: state.history,
+  gameMode: state.gameMode
 });
 const restart = dispatch => {
   dispatch(ResetBoard());
@@ -65,8 +77,9 @@ const restart = dispatch => {
 const mapDispatchToProps = dispatch => ({
   restart: () => restart(dispatch),
   sorted: () => dispatch(Sort()),
-  undo: index => {
-    dispatch(RemoveHistory(index, index - (index % 2 === 0 ? 1 : 2)));
+  undo: (index, online) => {
+    if (!online)
+      dispatch(RemoveHistory(index, index - (index % 2 === 0 ? 1 : 2)));
   },
   redo: index => {
     dispatch(RemoveHistory(index, index + (index % 2 === 0 ? 1 : 2)));

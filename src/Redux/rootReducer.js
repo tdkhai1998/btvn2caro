@@ -12,9 +12,13 @@ import { turn } from './Turn';
 import { user } from './User';
 import { winnerLine } from './WinnerLine';
 import { urlBack } from './UrlBack';
+import { gameMode } from './GameMode';
+import { socketIO } from './SocketIO';
 
 const rootReducer = combineReducers({
   history,
+  socketIO,
+  gameMode,
   infoUser,
   fieldUpdate,
   isFetching,

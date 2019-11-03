@@ -5,6 +5,9 @@ export default function turn(state = false, action) {
     case TYPE.CHANGE: {
       return !state;
     }
+    case TYPE.RESET: {
+      return false;
+    }
     case TYPE.SET: {
       return action.turn;
     }

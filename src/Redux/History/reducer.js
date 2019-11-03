@@ -15,7 +15,7 @@ export default (state = { arr: [], index: -1 }, action) => {
       const newArr = arr.slice(0, index + 1);
       return {
         arr: newArr,
-        index: index 
+        index
       };
     }
     case TYPE.CHANGE_INDEX: {

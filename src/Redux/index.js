@@ -10,3 +10,6 @@ export * from './History';
 export * from './InfoUser';
 export * from './UrlBack';
 export * from './FieldsUpdate';
+export * from './GameMode';
+export * from './SocketIO';
+export * from './type.index';

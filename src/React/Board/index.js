@@ -4,8 +4,11 @@ import { AddOneToBoad, SetMessage } from '../../Redux';
 import Square from '../Square/index';
 import Popup from '../Popup';
 
+// import { TypeGameMode } from '../../Redux';
+
+const Message = 'Không phải lượt của bạn';
 const Board = props => {
-  const { onClick, squares, turn, winnerLine } = props;
+  const { onClick, squares, turn, winnerLine, gameMode, socketIO } = props;
   const row = [];
   for (let i = 0; i < 20; i += 1) {
     const square = [];
@@ -18,14 +21,15 @@ const Board = props => {
           dir={winnerLine.dir}
           ok={winnerLine.arr.includes(index)}
           onClick={() => {
-            onClick(index, turn);
+            if (gameMode.yourTurn === turn && socketIO.socket)
+              socketIO.socket.emit('play', index, socketIO.room);
+            onClick(index, turn, gameMode);
           }}
         />
       );
     }
     row.push(
       <div key={i} className="board-row">
-        <Popup />
         {square}
       </div>
     );
@@ -35,14 +39,21 @@ const Board = props => {
 const mapStateToProps = state => ({
   squares: state.squares,
   turn: state.turn,
-  winnerLine: state.winnerLine
+  winnerLine: state.winnerLine,
+  gameMode: state.gameMode,
+  socketIO: state.socketIO
 });
+
 const mapDispatchToProps = dispatch => ({
-  onClick: (index, turn) => {
-    if (!turn) return dispatch(AddOneToBoad(index, turn));
-    return dispatch(SetMessage('Bạn không thể đánh khi đến lượt của máy. Để đánh, Undo lại lúc đúng lượt của bạn'));
+  onClick: (index, turn, modeGame) => {
+    console.log('My turn is', modeGame.yourTurn, 'and global turn is', turn);
+    if (modeGame.yourTurn === turn) {
+      return dispatch(AddOneToBoad(index, turn));
+    }
+    return dispatch(SetMessage(Message, 'CRAZY (-_-)'));
   }
 });
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps

@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { RemoveHistory } from '../../Redux';
+import { RemoveHistory, TypeGameMode } from '../../Redux';
 
 const SideBar = props => {
   const listTurn = () => {
-    const { history, onClick, isSorted } = props;
+    const { history, onClick, isSorted, gameMode } = props;
     const arr = !isSorted ? history.arr.slice().reverse() : history.arr.slice();
     const indexHis = history.index;
     return arr.map((item, index) => {
@@ -17,10 +17,11 @@ const SideBar = props => {
         return (
           <button
             type="button"
-            disabled
             className="myButton"
             key={id}
+            // style={{ background: 'red' }}
             onClick={() => onClick(indexHis, index2)}
+            disabled
           >
             {index2} TURN {`${item.turn ? 'X' : 'O'} ${postion}`}
           </button>
@@ -31,13 +32,19 @@ const SideBar = props => {
           type="button"
           className="myButton"
           key={id}
-          onClick={() => onClick(indexHis, index2)}
+          onClick={
+            gameMode.mode === TypeGameMode.modeType.Online
+              ? () => onClick(indexHis, index2)
+              : () => {}
+          }
+          // disabled={}
         >
           {index2} TURN {`${item.turn ? 'X' : 'O'}  ${postion}`}
         </button>
       );
     });
   };
+  const { gameMode } = props;
   return (
     <div style={{ maxHeight: 450, overflow: 'auto', paddingBottom: 20 }}>
       {listTurn()}
@@ -48,7 +55,8 @@ const mapStateToProps = state => ({
   history: state.history,
   turn: state.turn,
   winnerLine: state.winnerLine,
-  isSorted: state.isSorted
+  isSorted: state.isSorted,
+  gameMode: state.gameMode
 });
 
 const mapDispatchToProps = dispatch => ({

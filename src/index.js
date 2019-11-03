@@ -45,7 +45,8 @@ const loadState = () => {
 
 const saveState = state => {
   try {
-    const serializedState = JSON.stringify(state);
+    const nState = { user: state.user };
+    const serializedState = JSON.stringify(nState);
     localStorage.setItem('state', serializedState);
   } catch (e) {
     // Ignore write errors;

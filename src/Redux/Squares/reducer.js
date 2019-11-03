@@ -4,6 +4,7 @@ const initialState = Array(400).fill(null);
 
 const squares = (state = initialState, action) => {
   switch (action.type) {
+    case TYPE.ADD_ONL:
     case TYPE.ADD: {
       const newState = state.slice();
       newState[action.index] = {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button } from 'react-bootstrap';
+import { Button, Modal, Image } from 'react-bootstrap';
 import { ResetMessage } from '../../Redux';
 import './style.css';
 
@@ -9,22 +9,19 @@ const Popup = props => {
   console.log(message);
   if (message.value) {
     return (
-      <div style={{ zIndex: 100 }}>
-        <div id="popup" className="overlay">
-          <div className="popup">
-            <h2>{message.title}</h2>
-            <div className="content">{message.value}</div>
-            <Button
-              onClick={closePopup}
-              variant="primary"
-              type="submit"
-              style={{ float: 'right', display: 'block', marginBottom: 100 }}
-            >
-              ĐÓNG
-            </Button>
-          </div>
-        </div>
-      </div>
+      <Modal show={!!message.value} style={{ margin: 'auto' }}>
+        <Modal.Header>
+          <h4>
+            <b>{message.title}</b>
+          </h4>
+        </Modal.Header>
+        <Modal.Body style={{ textAlign: 'center' }}>
+          <h3>{message.value}</h3>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={() => closePopup()}> ĐÓNG</Button>
+        </Modal.Footer>
+      </Modal>
     );
   }
   return null;

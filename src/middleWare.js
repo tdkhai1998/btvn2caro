@@ -9,13 +9,15 @@ import {
   ChangeIndexHistory,
   SetTurn,
   RemoveWinnerLine,
-  AddOneToBoad
+  AddOneToBoad,
+  TypeGameMode,
+  SetMessage
 } from './Redux';
 import robot from './robot';
 
 export default store => next => action => {
   if (action.type === Type.ADD) {
-    const { squares, winnerLine } = store.getState();
+    const { squares, winnerLine, gameMode } = store.getState();
 
     if (squares[action.index] === null && winnerLine.dir === -1) {
       store.dispatch(ChangeTurn());
@@ -23,12 +25,27 @@ export default store => next => action => {
       const result = haveWinner(squares, action.index);
       if (result !== false) {
         store.dispatch(AddWinnerLine(result));
+        if (action.turn === gameMode.yourTurn) {
+          store.dispatch(SetMessage('BẠN LÀ NGƯỜI CHIẾN THẮNG', 'WINNER'));
+        } else {
+          store.dispatch(
+            SetMessage('ĐỐI THỦ LÀ NGƯỜI NGƯỜI CHIẾN THẮNG', 'WINNER')
+          );
+        }
+
+        // if (gameMode.mode === TypeGameMode.modeType.Online && socketIO.socket)
+        //   socketIO.socket.emit('winner', action.turn, socketIO.room);
+        // else {
+        //   console.log('sfvfshghvb');
+        // }
       }
       store.dispatch(AddToHistory(action.index, action.turn));
-      if (!action.turn) {
+      if (
+        gameMode.mode === TypeGameMode.modeType.Offline &&
+        action.turn === gameMode.yourTurn
+      ) {
         store.dispatch(AddOneToBoad(robot(squares, action.index), 'O'));
       }
-
       next(action);
     }
   } else if (action.type === TypeHis.REMOVE) {

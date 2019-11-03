@@ -5,6 +5,11 @@ export const AddOneToBoad = (index, turn) => ({
   index,
   turn
 });
+export const AddOneToBoadOnl = (index, turn) => ({
+  type: TYPE.ADD,
+  index,
+  turn
+});
 export const RemoveFromBoard = index => ({
   type: TYPE.REMOVE,
   index
