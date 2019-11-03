@@ -2,9 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { AddOneToBoad, SetMessage } from '../../Redux';
 import Square from '../Square/index';
-import Popup from '../Popup';
-
-// import { TypeGameMode } from '../../Redux';
 
 const Message = 'Không phải lượt của bạn';
 const Board = props => {

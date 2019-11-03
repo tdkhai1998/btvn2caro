@@ -1,13 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Modal } from 'react-bootstrap';
-import { ResetMessage } from '../../Redux';
 import './style.css';
+import { RejectRequestUndo, AcceptRequestUndo } from '../../Redux-thunk';
 
 const Popup = props => {
-  const { message, closePopup } = props;
-  console.log(message);
-  if (message.value && message.title !== 'REQUEST') {
+  const { message, accept, reject } = props;
+  if (message.value && message.title === 'REQUEST') {
     return (
       <Modal show={!!message.value} style={{ margin: 'auto' }}>
         <Modal.Header>
@@ -19,7 +18,8 @@ const Popup = props => {
           <h3>{message.value}</h3>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => closePopup()}> ĐÓNG</Button>
+          <Button onClick={() => reject()}> KHÔNG ĐỒNG Ý</Button>
+          <Button onClick={() => accept()}> ĐỒNG Ý</Button>
         </Modal.Footer>
       </Modal>
     );
@@ -32,7 +32,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  closePopup: () => dispatch(ResetMessage())
+  accept: () => dispatch(AcceptRequestUndo()),
+  reject: () => dispatch(RejectRequestUndo())
 });
 export default connect(
   mapStateToProps,

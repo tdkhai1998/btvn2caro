@@ -19,8 +19,7 @@ const SideBar = props => {
             type="button"
             className="myButton"
             key={id}
-            // style={{ background: 'red' }}
-            onClick={() => onClick(indexHis, index2)}
+            onClick={() => onClick(indexHis, index2, gameMode)}
             disabled
           >
             {index2} TURN {`${item.turn ? 'X' : 'O'} ${postion}`}
@@ -32,19 +31,13 @@ const SideBar = props => {
           type="button"
           className="myButton"
           key={id}
-          onClick={
-            gameMode.mode === TypeGameMode.modeType.Online
-              ? () => onClick(indexHis, index2)
-              : () => {}
-          }
-          // disabled={}
+          onClick={() => onClick(indexHis, index2, gameMode)}
         >
           {index2} TURN {`${item.turn ? 'X' : 'O'}  ${postion}`}
         </button>
       );
     });
   };
-  const { gameMode } = props;
   return (
     <div style={{ maxHeight: 450, overflow: 'auto', paddingBottom: 20 }}>
       {listTurn()}
@@ -60,7 +53,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onClick: (from, to) => dispatch(RemoveHistory(from, to))
+  onClick: (from, to, gameMode) => {
+    if (gameMode.mode === TypeGameMode.modeType.Offline)
+      dispatch(RemoveHistory(from, to));
+  }
 });
 
 export default connect(

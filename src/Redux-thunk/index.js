@@ -1,6 +1,7 @@
 import fetch, { Headers } from 'node-fetch';
 import * as action from '../Redux';
 import { TypeGameMode } from '../Redux/GameMode';
+import { AcceptRequestUndo } from './action';
 
 const config = require('../Config');
 
@@ -257,11 +258,21 @@ export const serveSocket = () => (dispatch, getState) => {
     dispatch(action.UpdateGameMode({ mode: TypeGameMode.modeType.Online }));
     dispatch(action.FetchDone());
     dispatch(
-      action.UpdateGameMode({ mode: action.TypeGameMode.modeType.Online })
+      action.SetMessage(
+        `Lượt của bạn là ${yourTurn ? 'X. Bạn chơi sau' : 'O. Bạn chơi trước'}`,
+        'Ghép cặp thành công'
+      )
     );
-    console.log('rủ rồi chơi thôi', id);
   });
   socket.on('play', value => {
     dispatch(action.AddOneToBoad(value, !yourTurn));
   });
+  socket.on('requestForUndo', n => {
+    dispatch(action.UpdateGameMode({ undo: n }));
+    dispatch(action.SetMessage('Xin phép bạn cho mình UNDO nhé', 'REQUEST'));
+  });
+  socket.on('accept-request', () => {
+    dispatch(AcceptRequestUndo());
+  });
 };
+export * from './action';

@@ -10,6 +10,8 @@ import {
   RemoveHistory,
   TypeGameMode
 } from '../../Redux';
+import { RequestUndo } from '../../Redux-thunk';
+import { type } from 'os';
 
 const Controls = props => {
   const {
@@ -30,7 +32,17 @@ const Controls = props => {
   return (
     <div>
       <div>
-        <h1>{turn ? 'NEXT TURN :X' : 'NEXT TURN :O'}</h1>
+        <div style={{ margin: 20 }}>
+          <h3>
+            {gameMode.yourTurn ? 'Quân của bạn là X' : 'Quân của bạn là O'}
+          </h3>
+          <h4>
+            {turn !== gameMode.yourTurn
+              ? 'Lượt của đối phương'
+              : 'Lượt của bạn'}
+          </h4>
+        </div>
+
         <button type="button" className="button" onClick={() => restart()}>
           RESTART
         </button>
@@ -41,10 +53,10 @@ const Controls = props => {
       </div>
       <div>
         <button
-          disabled={history.index === 1}
+          hidden={history.index < 2}
           type="button"
           className="button"
-          onClick={() => undo(history.index)}
+          onClick={() => undo(history.index, gameMode)}
         >
           UNDO
         </button>
@@ -53,7 +65,7 @@ const Controls = props => {
           disabled={history.index === history.arr.length - 1}
           type="button"
           className="button"
-          onClick={() => redo(history.index)}
+          onClick={() => redo(history.index, gameMode)}
         >
           Redo
         </button>
@@ -77,12 +89,17 @@ const restart = dispatch => {
 const mapDispatchToProps = dispatch => ({
   restart: () => restart(dispatch),
   sorted: () => dispatch(Sort()),
-  undo: (index, online) => {
-    if (!online)
+  undo: (index, gameMode) => {
+    if (gameMode.mode === TypeGameMode.modeType.Offline) {
       dispatch(RemoveHistory(index, index - (index % 2 === 0 ? 1 : 2)));
+    } else {
+      dispatch(RequestUndo());
+    }
   },
-  redo: index => {
-    dispatch(RemoveHistory(index, index + (index % 2 === 0 ? 1 : 2)));
+  redo: (index, gameMode) => {
+    if (gameMode.mode === TypeGameMode.modeType.Offline) {
+      dispatch(RemoveHistory(index, index + (index % 2 === 0 ? 1 : 2)));
+    }
   }
 });
 

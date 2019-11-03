@@ -6,6 +6,7 @@ import { serveSocket } from '../../Redux-thunk';
 import Game from '../Game';
 import NavBar from '../NavBar';
 import Popup from '../Popup';
+import { RequestPopup } from '..';
 
 const modeGame = action.TypeGameMode.modeType;
 
@@ -56,6 +57,15 @@ class GameOnline extends React.Component {
 
     return (
       <div>
+        <RequestPopup />
+        <Modal show={isFetching} style={{ margin: 'auto' }}>
+          <Modal.Body>
+            <Image
+              src="loading.gif"
+              style={{ width: 'auto', height: 'auto', paddingLeft: 138 }}
+            />
+          </Modal.Body>
+        </Modal>
         <Popup />
         <Game />
       </div>
