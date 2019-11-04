@@ -34,3 +34,9 @@ export const AcceptRequestUndo = () => (run, state) => {
 export const RejectRequestUndo = () => (run, state) => {
   run(actions.ResetMessage());
 };
+
+export const sendChatMess = mess => (run, state) => {
+  const { socketIO } = state();
+  const { socket, room } = socketIO;
+  socket.emit('chat', room, mess);
+};

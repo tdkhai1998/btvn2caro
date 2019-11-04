@@ -14,9 +14,11 @@ import { winnerLine } from './WinnerLine';
 import { urlBack } from './UrlBack';
 import { gameMode } from './GameMode';
 import { socketIO } from './SocketIO';
+import { chat } from './Chat';
 
 const rootReducer = combineReducers({
   history,
+  chat,
   socketIO,
   gameMode,
   infoUser,

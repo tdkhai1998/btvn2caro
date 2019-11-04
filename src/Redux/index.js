@@ -12,4 +12,4 @@ export * from './UrlBack';
 export * from './FieldsUpdate';
 export * from './GameMode';
 export * from './SocketIO';
-export * from './type.index';
+export * from './Chat';

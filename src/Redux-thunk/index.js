@@ -1,4 +1,5 @@
 import fetch, { Headers } from 'node-fetch';
+import { addResponseMessage } from 'react-chat-widget';
 import * as action from '../Redux';
 import { TypeGameMode } from '../Redux/GameMode';
 import { AcceptRequestUndo } from './action';
@@ -41,7 +42,7 @@ export const loadInfo = () => (dispatch, getState) => {
       method: 'GET',
       headers: new Headers({
         Authorization: `Bearer ${user.token}`,
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'text/plain'
       })
     })
       .then(res => {
@@ -75,26 +76,48 @@ export const loadInfo = () => (dispatch, getState) => {
   }
 };
 
-export const updateInfoUser = () => (dispatch, getState) => {
+export const upload = () => (dispatch, state) => {
+  const { user, infoUser } = state();
+  console.log(infoUser.avatar);
+  const url = `${serverHost}/user/upload/user`;
+  const headers = new Headers({
+    'Access-Control-Allow-Origin': '*',
+    'Content-Type': 'text/plain'
+  });
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(infoUser.avatar),
+    headers
+  };
+  return fetch(url, options).then(r => console.log(r));
+  // })
+};
+export const updateInfoUser = mess => (dispatch, getState) => {
   dispatch(action.FetchDoing());
-  console.log('update....');
   const { infoUser } = getState();
+  console.log(infoUser);
+  const headers = new Headers({
+    'Access-Control-Allow-Origin': '*',
+    'Content-Type': 'text/plain'
+  });
+  // infoUser.avatar = null;\
   const url = `${serverHost}/user`;
   const options = {
     method: 'PUT',
     body: JSON.stringify(infoUser),
-    headers: {
-      'Content-Type': 'application/json'
-    }
+    headers
   };
   return fetch(url, options)
     .then(() => {
-      dispatch(
-        action.SetMessage('Cập nhật thông tin thành công', TITLE.SUCCESSFUL)
-      );
+      dispatch(upload());
+      if (!mess) {
+        dispatch(
+          action.SetMessage('Cập nhật thông tin thành công', TITLE.SUCCESSFUL)
+        );
+      }
     })
     .catch(e => {
-      dispatch(action.SetMessage(e.message, 'LỖI'));
+      if (!mess) dispatch(action.SetMessage(e.message, 'LỖI'));
     })
     .finally(() => {
       dispatch(action.FetchDone());
@@ -136,7 +159,7 @@ export const changePassword = (oldPass, newPass) => (dispatch, getState) => {
     body: JSON.stringify({ oldPass, newPass, username: user.user }),
     credentials: 'same-origin',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'text/plain'
     }
   };
   return fetch(url, options)
@@ -167,14 +190,14 @@ export const changePassword = (oldPass, newPass) => (dispatch, getState) => {
     });
 };
 
-export const login = (username, password, role) => dispatch => {
+export const login = (username, password) => dispatch => {
   dispatch(action.FetchDoing());
   console.log('login....', username, password);
   const url = `${serverHost}/user/login`;
   return fetch(url, {
     method: 'POST',
-    body: JSON.stringify({ username, password, role }),
-    headers: { 'Content-Type': 'application/json' }
+    body: JSON.stringify({ username, password }),
+    headers: { 'Content-Type': 'text/plain' }
   })
     .then(res => res.json())
     .then(res => {
@@ -204,19 +227,19 @@ export const register = (
 ) => dispatch => {
   dispatch(action.FetchDoing());
   console.log('register...', username, password, repassword);
-
+  const u = new FormData();
+  u.append('s', 'd');
   return fetch(`${serverHost}/user/register`, {
     method: 'POST',
     body: JSON.stringify({ username, password, repassword }),
-    headers: { 'Content-Type': 'application/json' }
+    headers: { 'Content-Type': 'text/plain' }
   })
     .then(r => r.json())
     .then(res => {
       console.log(res);
       if (islogin) {
         dispatch(login(username, password));
-
-        dispatch(updateInfoUser());
+        dispatch(updateInfoUser(true));
         return;
       }
       const result = JSON.parse(res);
@@ -236,18 +259,19 @@ export const facelogin = user => dispatch => {
   const { username, password } = user;
   dispatch(action.UpdateInfoUser(user));
   dispatch(register(username, password, password, true));
-
-  //
-  // dispatch(updateInfoUser(false));
 };
 
 export const serveSocket = () => (dispatch, getState) => {
   let socket = null;
+  let r = null;
   let yourTurn;
+
   dispatch(action.FetchDoing());
   dispatch(action.StartSocketIO());
   while (!socket) {
-    socket = getState().socketIO.socket;
+    const IO = getState().socketIO;
+    socket = IO.socket;
+    r = IO.room;
   }
   socket.on('get-room', (room, index) => {
     yourTurn = index === 1;
@@ -263,6 +287,12 @@ export const serveSocket = () => (dispatch, getState) => {
         'Ghép cặp thành công'
       )
     );
+    const { infoUser } = getState();
+    console.log(infoUser);
+    socket.emit('start-chat', id, infoUser.username, infoUser.avatar);
+    socket.on('start-chat', (name, avt) => {
+      dispatch(action.UpdateChatStatus({ name, profileAvatar: avt }));
+    });
   });
   socket.on('play', value => {
     dispatch(action.AddOneToBoad(value, !yourTurn));
@@ -273,6 +303,11 @@ export const serveSocket = () => (dispatch, getState) => {
   });
   socket.on('accept-request', () => {
     dispatch(AcceptRequestUndo());
+  });
+
+  socket.on('chat', mess => {
+    addResponseMessage(mess);
+    dispatch(action.UpdateChatStatus({ newMessage: mess }));
   });
 };
 export * from './action';

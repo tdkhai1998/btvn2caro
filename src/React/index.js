@@ -12,5 +12,6 @@ export { default as Profile } from './Profile';
 export { default as Login } from './Login';
 export { default as Register } from './Register';
 export { default as Facebook } from './Facebook';
-export { default as GameOnline } from './GameOnline';
 export { default as RequestPopup } from './RequestPopup';
+export { default as ChatBox } from './Chat';
+export { default as GameOnline } from './GameOnline';

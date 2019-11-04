@@ -19,7 +19,7 @@ import * as serviceWorker from './serviceWorker';
 // import InfoForm from './container/infoContainer';
 // import MyModal from './container/changePassContainer';
 // import Facebook from './Components/facebook';
-
+import Chat from './React/Chat';
 import {
   Game,
   Register,
@@ -77,6 +77,7 @@ const a = (
         <Route path="/profile" component={Profile} />
         <Route path="/facebook" component={Facebook} />
         <Route path="/online" component={GameOnline} />
+        <Route path="/mess" component={Chat} />
         <Route path="/">
           <Redirect to="/game" />
         </Route>
