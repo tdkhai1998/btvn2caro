@@ -19,16 +19,7 @@ import * as serviceWorker from './serviceWorker';
 // import InfoForm from './container/infoContainer';
 // import MyModal from './container/changePassContainer';
 // import Facebook from './Components/facebook';
-import Chat from './React/Chat';
-import {
-  Game,
-  Register,
-  Login,
-  Home,
-  Profile,
-  Facebook,
-  GameOnline
-} from './React';
+import { Game, Register, Login, Home, Profile, GameOnline } from './React';
 import rootReducer from './Redux/rootReducer';
 
 const loadState = () => {
@@ -75,9 +66,7 @@ const a = (
         <Route path="/login" component={Login} />
         <Route path="/home" component={Home} />
         <Route path="/profile" component={Profile} />
-        <Route path="/facebook" component={Facebook} />
         <Route path="/online" component={GameOnline} />
-        <Route path="/mess" component={Chat} />
         <Route exact path="/">
           <Redirect to="/home" />
         </Route>

@@ -8,46 +8,46 @@ import Popup from '../Popup';
 
 const Home = props => {
   const { logout2, history, user, isFetching, infoUser } = props;
+  console.log(user);
   const style = {
     background: 'gray',
     margin: '0 auto',
     marginTop: 150,
     width: 150
   };
+  if (!user) return <Redirect to="/login" />;
 
-  if (user)
-    return (
-      <div>
-        <Popup />
-        <NavBar />
-        <Table bordered hover style={style}>
-          <tbody>
-            <tr>
-              <td rowSpan="2">
-                <img
-                  alt=""
-                  src={infoUser.avatar && 'avt.png'}
-                  style={{ height: 150, width: 150 }}
-                />
-              </td>
-              <td>Name: {user && user.user && user.user.username}</td>
-            </tr>
-            <tr>
-              <td style={{ textAlign: 'center' }}>
-                <Button
-                  style={{ margin: '0 auto' }}
-                  onClick={() => logout2(history)}
-                  disabled={isFetching}
-                >
-                  {isFetching && <Spinner animation="border" />} LOGOUT
-                </Button>
-              </td>
-            </tr>
-          </tbody>
-        </Table>
-      </div>
-    );
-  return <Redirect to="/login" />;
+  return (
+    <div>
+      <Popup />
+      <NavBar />
+      <Table bordered hover style={style}>
+        <tbody>
+          <tr>
+            <td rowSpan="2">
+              <img
+                alt=""
+                src={infoUser.avatar && 'avt.png'}
+                style={{ height: 150, width: 150 }}
+              />
+            </td>
+            <td>Name: {user && user.user && user.user.username}</td>
+          </tr>
+          <tr>
+            <td style={{ textAlign: 'center' }}>
+              <Button
+                style={{ margin: '0 auto' }}
+                onClick={() => logout2(history)}
+                disabled={isFetching}
+              >
+                {isFetching && <Spinner animation="border" />} LOGOUT
+              </Button>
+            </td>
+          </tr>
+        </tbody>
+      </Table>
+    </div>
+  );
 };
 
 const mapStateToProps = state => {

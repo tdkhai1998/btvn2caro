@@ -41,10 +41,8 @@ const Profile = props => {
     fieldUpdate,
     user
   } = props;
-  console.log('Profile:', props);
   const uploadFileButton = event => {
     event.preventDefault();
-    console.log('submit', infoUser);
     const dataLength = event.target.length;
     for (let i = 0; i < dataLength; i += 1) {
       infoUser[event.target[i].id] = event.target[i].value;
@@ -205,7 +203,8 @@ const Profile = props => {
 const mapStateToProps = state => ({
   infoUser: state.infoUser,
   isFetching: state.isFetching,
-  fieldUpdate: state.fieldUpdate
+  fieldUpdate: state.fieldUpdate,
+  user: state.user
 });
 const mapDispatchToProps = dispatch => ({
   updateInfo: user => dispatch(updateInfoUserRedux(user)),
