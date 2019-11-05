@@ -27,6 +27,9 @@ export default (state = { arr: [], index: -1 }, action) => {
     case TYPE.RESET: {
       return { arr: [], index: -1 };
     }
+    case TYPE.UPDATE:{
+      return action.value
+    }
     case TYPE.REMOVE:
     default:
       return state;

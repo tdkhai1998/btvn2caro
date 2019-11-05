@@ -5,7 +5,8 @@ import Square from '../Square/index';
 
 const Message = 'Không phải lượt của bạn';
 const Board = props => {
-  const { onClick, squares, turn, winnerLine, gameMode, socketIO } = props;
+  console.log('props-boad', props);
+  const { onClick, squares, turn, winnerLine, gameMode } = props;
   const row = [];
   for (let i = 0; i < 20; i += 1) {
     const square = [];
@@ -18,8 +19,6 @@ const Board = props => {
           dir={winnerLine.dir}
           ok={winnerLine.arr.includes(index)}
           onClick={() => {
-            if (gameMode.yourTurn === turn && socketIO.socket)
-              socketIO.socket.emit('play', index, socketIO.room);
             onClick(index, turn, gameMode);
           }}
         />

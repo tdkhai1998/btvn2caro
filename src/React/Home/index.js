@@ -7,7 +7,7 @@ import NavBar from '../NavBar';
 import Popup from '../Popup';
 
 const Home = props => {
-  const { logout2, history, user, isFetching } = props;
+  const { logout2, history, user, isFetching, infoUser } = props;
   const style = {
     background: 'gray',
     margin: '0 auto',
@@ -24,7 +24,11 @@ const Home = props => {
           <tbody>
             <tr>
               <td rowSpan="2">
-                <img alt="" src="avt.png" style={{ height: 150, width: 150 }} />
+                <img
+                  alt=""
+                  src={infoUser.avatar && 'avt.png'}
+                  style={{ height: 150, width: 150 }}
+                />
               </td>
               <td>Name: {user && user.user && user.user.username}</td>
             </tr>
@@ -48,6 +52,7 @@ const Home = props => {
 
 const mapStateToProps = state => {
   return {
+    infoUser: state.infoUser,
     user: state.user,
     isFetching: state.isFetching
   };

@@ -17,7 +17,7 @@ const styleForm = {
   boxShadow: '10px 13px 123px -1px rgba(112,106,112,1)'
 };
 const LoginForm = props => {
-  const { loginForm, isFetching } = props;
+  const { loginForm, isFetching, history } = props;
   let username;
   let password;
   const changeUsername = e => {
@@ -56,6 +56,15 @@ const LoginForm = props => {
           </Form.Group>
           <Form.Group>
             <Facebook />
+            <Button
+              disabled={isFetching}
+              variant="primary"
+              onClick={() => history.push('/register')}
+              style={{ float: 'right' }}
+            >
+              {isFetching && <Spinner animation="border" />}
+              ĐĂNG KÝ
+            </Button>
             <Button
               disabled={isFetching}
               variant="primary"

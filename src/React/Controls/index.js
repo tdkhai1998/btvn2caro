@@ -10,8 +10,7 @@ import {
   RemoveHistory,
   TypeGameMode
 } from '../../Redux';
-import { RequestUndo } from '../../Redux-thunk';
-import { type } from 'os';
+import { RequestUndo, LeaveRoom } from '../../Redux-thunk';
 
 const Controls = props => {
   const {
@@ -22,7 +21,8 @@ const Controls = props => {
     history,
     undo,
     redo,
-    gameMode
+    gameMode,
+    leave
   } = props;
   console.log(
     history.index,
@@ -43,10 +43,22 @@ const Controls = props => {
           </h4>
         </div>
 
-        <button type="button" className="button" onClick={() => restart()}>
+        <button
+          hidden={gameMode.mode === TypeGameMode.modeType.Online}
+          type="button"
+          className="button"
+          onClick={() => restart()}
+        >
           RESTART
         </button>
-
+        <button
+          hidden={gameMode.mode !== TypeGameMode.modeType.Online}
+          type="button"
+          className="button"
+          onClick={() => leave()}
+        >
+          LEAVE
+        </button>
         <button type="button" className="button" onClick={() => sorted()}>
           {isSorted ? 'SORTED' : 'SORT'}
         </button>
@@ -60,6 +72,7 @@ const Controls = props => {
         >
           UNDO
         </button>
+
         <button
           hidden={gameMode.mode === TypeGameMode.modeType.Online}
           disabled={history.index === history.arr.length - 1}
@@ -100,7 +113,8 @@ const mapDispatchToProps = dispatch => ({
     if (gameMode.mode === TypeGameMode.modeType.Offline) {
       dispatch(RemoveHistory(index, index + (index % 2 === 0 ? 1 : 2)));
     }
-  }
+  },
+  leave: () => dispatch(LeaveRoom())
 });
 
 export default connect(

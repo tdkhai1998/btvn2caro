@@ -2,17 +2,17 @@ import io from 'socket.io-client';
 import TYPE from './type';
 import serverHost from '../../Config';
 
-export default (state = { socket: null, room: -1 }, action) => {
+export default (state = { socket: null }, action) => {
   switch (action.type) {
-    case TYPE.SET: {
+    case TYPE.START: {
       const socket = io(serverHost);
-      return { socket, room: -1 };
+      return { socket };
     }
-    case TYPE.SETROOM: {
-      return { ...state, room: action.room };
+    case TYPE.UPDATE: {
+      return { ...state, ...action.value };
     }
     case TYPE.RESET:
-      return null;
+      return { socket: null };
     default:
       return state;
   }

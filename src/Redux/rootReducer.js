@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux';
 
+import { historyOffline } from './HistoryOffline';
+import { historyOnline } from './HistoryOnline';
 import { history } from './History';
 import { infoUser } from './InfoUser';
 import { fieldUpdate } from './FieldsUpdate';
@@ -17,6 +19,8 @@ import { socketIO } from './SocketIO';
 import { chat } from './Chat';
 
 const rootReducer = combineReducers({
+  historyOffline,
+  historyOnline,
   history,
   chat,
   socketIO,

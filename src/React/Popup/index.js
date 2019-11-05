@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal, Image } from 'react-bootstrap';
 import { ResetMessage } from '../../Redux';
 import './style.css';
 
 const Popup = props => {
-  const { message, closePopup } = props;
+  const { message, closePopup, isFetching } = props;
   console.log(message);
   if (message.value && message.title !== 'REQUEST') {
     return (
@@ -17,6 +17,11 @@ const Popup = props => {
         </Modal.Header>
         <Modal.Body style={{ textAlign: 'center' }}>
           <h3>{message.value}</h3>
+          <Image
+            hidden={!isFetching}
+            src="loading.gif"
+            style={{ width: 'auto', height: 'auto', paddingLeft: 138 }}
+          />
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={() => closePopup()}> ĐÓNG</Button>
@@ -28,7 +33,8 @@ const Popup = props => {
 };
 
 const mapStateToProps = state => ({
-  message: state.message
+  message: state.message,
+  isFetching: state.isFetching
 });
 
 const mapDispatchToProps = dispatch => ({

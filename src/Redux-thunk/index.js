@@ -2,7 +2,13 @@ import fetch, { Headers } from 'node-fetch';
 import { addResponseMessage } from 'react-chat-widget';
 import * as action from '../Redux';
 import { TypeGameMode } from '../Redux/GameMode';
-import { AcceptRequestUndo } from './action';
+import {
+  AcceptRequestUndo,
+  ChangeModeGame,
+  RejectRequestUndo,
+  LeaveRoom
+} from './action';
+// import { runInContext } from 'vm';
 
 const config = require('../Config');
 
@@ -77,8 +83,7 @@ export const loadInfo = () => (dispatch, getState) => {
 };
 
 export const upload = () => (dispatch, state) => {
-  const { user, infoUser } = state();
-  console.log(infoUser.avatar);
+  const { infoUser } = state();
   const url = `${serverHost}/user/upload/user`;
   const headers = new Headers({
     'Access-Control-Allow-Origin': '*',
@@ -263,23 +268,27 @@ export const facelogin = user => dispatch => {
 
 export const serveSocket = () => (dispatch, getState) => {
   let socket = null;
-  let r = null;
   let yourTurn;
-
   dispatch(action.FetchDoing());
   dispatch(action.StartSocketIO());
   while (!socket) {
     const IO = getState().socketIO;
     socket = IO.socket;
-    r = IO.room;
   }
+  socket.emit('find');
+  socket.on('YouAreAlone', () => {
+    dispatch(LeaveRoom(true));
+    // dispatch(action.FetchDoing());
+    // socket.emit('find');
+  });
   socket.on('get-room', (room, index) => {
     yourTurn = index === 1;
-    dispatch(action.SetRoomSocket(room));
+    dispatch(action.UpdateSocketIO({ room, yourTurn: index === 1 }));
     dispatch(action.UpdateGameMode({ yourTurn: index === 1 }));
   });
   socket.on('have-enough', id => {
     dispatch(action.UpdateGameMode({ mode: TypeGameMode.modeType.Online }));
+    dispatch(ChangeModeGame());
     dispatch(action.FetchDone());
     dispatch(
       action.SetMessage(
@@ -308,6 +317,9 @@ export const serveSocket = () => (dispatch, getState) => {
   socket.on('chat', mess => {
     addResponseMessage(mess);
     dispatch(action.UpdateChatStatus({ newMessage: mess }));
+  });
+  socket.on('RejectedUndoRespone', () => {
+    dispatch(RejectRequestUndo());
   });
 };
 export * from './action';

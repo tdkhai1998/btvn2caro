@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Row, Col, Button, Spinner, Modal, Image } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import DatePicker from '../DatePicker';
 import Popup from '../Popup';
@@ -37,7 +38,8 @@ const Profile = props => {
     isFetching,
     updateInfoUserFetch,
     modalAppear,
-    fieldUpdate
+    fieldUpdate,
+    user
   } = props;
   console.log('Profile:', props);
   const uploadFileButton = event => {
@@ -58,6 +60,7 @@ const Profile = props => {
   const changeNgaySinh = e => {
     updateInfo({ ngaysinh: dateFormat(e, 'mm/dd/yyyy') });
   };
+  if (!user) return <Redirect to="/login" />;
   if (!infoUser.fetched) {
     loadInfor();
     return (

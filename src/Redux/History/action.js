@@ -20,3 +20,7 @@ export const RemoveHistory = (from, to) => ({
   from,
   to
 });
+export const UpdateHistory = value => ({
+  type: TYPE.UPDATE,
+  value
+});

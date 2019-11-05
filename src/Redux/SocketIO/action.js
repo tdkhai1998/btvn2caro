@@ -1,11 +1,11 @@
 import TYPE from './type';
 
 export const StartSocketIO = () => ({
-  type: TYPE.SET
+  type: TYPE.START
 });
-export const SetRoomSocket = room => ({
-  type: TYPE.SETROOM,
-  room
+export const UpdateSocketIO = value => ({
+  type: TYPE.UPDATE,
+  value
 });
 export const EndSocketIO = () => ({
   type: TYPE.RESET

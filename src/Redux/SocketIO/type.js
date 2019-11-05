@@ -1,5 +1,5 @@
 export default {
-  SET: 'socket_set',
+  START: 'socket_start',
   RESET: 'socket_reset',
-  SETROOM: 'socket_setRoom'
+  UPDATE: 'socket_setRoom'
 };

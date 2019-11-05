@@ -19,7 +19,6 @@ const Popup = props => {
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={() => reject()}> KHÔNG ĐỒNG Ý</Button>
-          
           <Button onClick={() => accept()}> ĐỒNG Ý</Button>
         </Modal.Footer>
       </Modal>

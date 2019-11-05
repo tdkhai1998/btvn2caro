@@ -78,8 +78,11 @@ const a = (
         <Route path="/facebook" component={Facebook} />
         <Route path="/online" component={GameOnline} />
         <Route path="/mess" component={Chat} />
+        <Route exact path="/">
+          <Redirect to="/home" />
+        </Route>
         <Route path="/">
-          <Redirect to="/game" />
+          <Redirect to="/notFound" />
         </Route>
       </Switch>
     </Provider>

@@ -1,15 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Container, Row, Button, Modal, Image } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
+import { Container, Row, Button, Modal, Image, Col } from 'react-bootstrap';
 import * as action from '../../Redux';
-import { serveSocket } from '../../Redux-thunk';
-import Game from '../Game';
+import TypeGameMode from '../../Redux/GameMode/type';
+import { serveSocket, ChangeModeGame } from '../../Redux-thunk';
 import NavBar from '../NavBar';
 import Popup from '../Popup';
 import RequestPopup from '../RequestPopup';
 import Chat from '../Chat';
+import Board from '../Board';
+import Controls from '../Controls';
+import SideBar from '../SideBar';
 
-const modeGame = action.TypeGameMode.modeType;
+// const modeGame = action.TypeGameMode.modeType;
 
 class GameOnline extends React.Component {
   constructor(props) {
@@ -23,19 +27,25 @@ class GameOnline extends React.Component {
     this.methods.exit();
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    const { socketIO, changeMode } = this.props;
+    if (socketIO.socket !== null) {
+      changeMode(socketIO.yourTurn);
+    }
+  }
 
   Find() {
     this.methods.find();
   }
 
   render() {
-    const { isFetching, gameMode } = this.props;
-    if (gameMode.mode === modeGame.Offline)
+    const { isFetching, socketIO, message, user } = this.props;
+    if (!user) return <Redirect to="/login" />;
+    if (socketIO.socket === null)
       return (
         <div>
           <NavBar />
-
+          <Popup />
           <Modal show={isFetching} style={{ margin: 'auto' }}>
             <Modal.Body>
               <Image
@@ -61,7 +71,7 @@ class GameOnline extends React.Component {
       <div>
         <RequestPopup />
         <Chat />
-        <Modal show={isFetching} style={{ margin: 'auto' }}>
+        <Modal show={isFetching && !message.value} style={{ margin: 'auto' }}>
           <Modal.Body>
             <Image
               src="loading.gif"
@@ -69,31 +79,53 @@ class GameOnline extends React.Component {
             />
           </Modal.Body>
         </Modal>
+        <NavBar />
         <Popup />
-        <Game />
+        <Container style={{ marginTop: 20 }}>
+          <Row>
+            <Col md="auto">
+              <Board />
+            </Col>
+            <Col md="auto" style={{ background: 'gray' }}>
+              <Controls />
+              <SideBar />
+            </Col>
+          </Row>
+        </Container>
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
+  user: state.user,
   message: state.message,
   isFetching: state.isFetching,
-  gameMode: state.gameMode
+  gameMode: state.gameMode,
+  socketIO: state.socketIO
 });
 
 const mapDispatchToProps = dispatch => ({
   doing: () => dispatch(action.FetchDoing()),
   done: () => dispatch(action.FetchDone()),
   exit: () => {
-    dispatch(action.ResetGameMode());
-    dispatch(action.ResetBoard());
-    dispatch(action.SetTurn(false));
-    dispatch(action.RemoveWinnerLine());
-    dispatch(action.ReSetHistory());
+    // // dispatch(action.ResetGameMode());
+    // // dispatch(action.ResetBoard());
+    // // dispatch(action.SetTurn(false));
+    // // dispatch(action.RemoveWinnerLine());
+    // // dispatch(action.ReSetHistory());
   },
   find: () => {
     dispatch(serveSocket());
+  },
+  changeMode: turn => {
+    dispatch(
+      action.UpdateGameMode({
+        mode: TypeGameMode.modeType.Online,
+        yourTurn: turn
+      })
+    );
+    dispatch(ChangeModeGame());
   }
 });
 export default connect(
