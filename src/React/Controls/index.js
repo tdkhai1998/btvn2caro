@@ -45,7 +45,7 @@ const Controls = props => {
   return (
     <div>
       <div>
-        <div style={{ margin: 20 }}>
+        <div style={{ margin: 20, maxWidth: 350 }}>
           <h3>{chat.name}</h3>
           <h3>
             {gameMode.yourTurn ? 'Quân của bạn là X' : 'Quân của bạn là O'}
