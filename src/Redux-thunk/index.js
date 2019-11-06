@@ -2,13 +2,11 @@ import fetch, { Headers } from 'node-fetch';
 import { addResponseMessage } from 'react-chat-widget';
 import * as action from '../Redux';
 import { TypeGameMode } from '../Redux/GameMode';
-import {
-  AcceptRequestUndo,
-  ChangeModeGame,
-  RejectRequestUndo,
-  LeaveRoom
-} from './action';
-// import { runInContext } from 'vm';
+import { ChangeModeGame, LeaveRoom } from './action';
+
+import { BeAccepted } from './beAccepted';
+import { HaveRequest } from './haveRequest';
+import { BeRejected } from './beRejected';
 
 const config = require('../Config');
 
@@ -20,7 +18,6 @@ const TITLE = {
   ERROR: 'LỖI'
 };
 const FieldsCanUpdate = (username, dispatch) => {
-  console.log('FILEDCANUPSATE', username);
   const fields = {};
   if (username.indexOf('gg') === 0) {
     fields.hoten = false;
@@ -33,74 +30,48 @@ const FieldsCanUpdate = (username, dispatch) => {
     fields.avatar = false;
     fields.password = false;
   }
-  console.log(fields);
   dispatch(action.UpdateFields(fields));
 };
 export const loadInfo = () => (dispatch, getState) => {
   dispatch(action.FetchDoing());
-  console.log('LoadInfo ....');
   const { user } = getState();
-  console.log(user);
   if (!user) {
-    dispatch(action.FetchDone());
-  } else {
-    return fetch(`${serverHost}/me`, {
-      method: 'GET',
-      headers: new Headers({
-        Authorization: `Bearer ${user.token}`,
-        'Content-Type': 'text/plain'
-      })
-    })
-      .then(res => {
-        console.log(res);
-        return res.json();
-      })
-      .then(res => {
-        const result = JSON.parse(res);
-        console.log('result... info', result);
-        if (result.code === 1) {
-          result.data.fetched = true;
-          console.log(result.data);
-          FieldsCanUpdate(user.user, dispatch);
-          console.log('data-fetch', result);
-          result.data.gioitinh = result.data.gioitinh === 0;
-          dispatch(action.UpdateInfoUser(result.data));
-        } else {
-          dispatch(action.UpdateInfoUser({ fetched: true }));
-          dispatch(action.SetMessage(result.error, 'THẤT BẠI'));
-        }
-      })
-      .catch(e => {
-        console.log('Loadinfoerr', e.message);
-
-        dispatch(action.SetMessage(e.message, 'LỖI'));
-      })
-      .finally(() => {
-        dispatch(action.UpdateInfoUser({ fetched: true }));
-        dispatch(action.FetchDone());
-      });
+    return dispatch(action.FetchDone());
   }
+  return fetch(`${serverHost}/me`, {
+    method: 'GET',
+    headers: new Headers({
+      Authorization: `Bearer ${user.token}`,
+      'Content-Type': 'text/plain'
+    })
+  })
+    .then(res => {
+      return res.json();
+    })
+    .then(res => {
+      const result = JSON.parse(res);
+      if (result.code === 1) {
+        result.data.fetched = true;
+        FieldsCanUpdate(user.user, dispatch);
+        result.data.gioitinh = result.data.gioitinh === 0;
+        dispatch(action.UpdateInfoUser(result.data));
+      } else {
+        dispatch(action.UpdateInfoUser({ fetched: true }));
+        dispatch(action.SetMessage(result.error, 'THẤT BẠI'));
+      }
+    })
+    .catch(e => {
+      dispatch(action.SetMessage(e.message, 'LỖI'));
+    })
+    .finally(() => {
+      dispatch(action.UpdateInfoUser({ fetched: true }));
+      dispatch(action.FetchDone());
+    });
 };
 
-export const upload = () => (dispatch, state) => {
-  const { infoUser } = state();
-  const url = `${serverHost}/user/upload/user`;
-  const headers = new Headers({
-    'Access-Control-Allow-Origin': '*',
-    'Content-Type': 'text/plain'
-  });
-  const options = {
-    method: 'POST',
-    body: JSON.stringify(infoUser.avatar),
-    headers
-  };
-  return fetch(url, options).then(r => console.log(r));
-  // })
-};
 export const updateInfoUser = mess => (dispatch, getState) => {
   dispatch(action.FetchDoing());
   const { infoUser } = getState();
-  console.log(infoUser);
   const headers = new Headers({
     'Access-Control-Allow-Origin': '*',
     'Content-Type': 'text/plain'
@@ -114,7 +85,6 @@ export const updateInfoUser = mess => (dispatch, getState) => {
   };
   return fetch(url, options)
     .then(() => {
-      dispatch(upload());
       if (!mess) {
         dispatch(
           action.SetMessage('Cập nhật thông tin thành công', TITLE.SUCCESSFUL)
@@ -135,24 +105,6 @@ export const logout = his => dispatch => {
   dispatch(action.ResetUser());
   dispatch(action.ResetFieldCanUpdate());
   his.push('/login');
-  // return fetch(`${serverHost}/user/logout`)
-  //   .then(res => {
-  //     return res.json();
-  //   })
-  //   .then(res => {
-  //     const result = JSON.parse(res);
-  //     if (result.code === 1) {
-  //       dispatch(FetchDone());
-  //       dispatch(ResetInfoUser());
-  //       his.push('/login');
-  //     }
-  //   })
-  //   .catch(e => {
-  //     dispatch(SetMessage(e.message, 'LỖI'));
-  //   })
-  //   .finally(() => {
-  //     dispatch(FetchDone());
-  //   });
 };
 
 export const changePassword = (oldPass, newPass) => (dispatch, getState) => {
@@ -197,7 +149,6 @@ export const changePassword = (oldPass, newPass) => (dispatch, getState) => {
 
 export const login = (username, password) => dispatch => {
   dispatch(action.FetchDoing());
-  console.log('login....', username, password);
   const url = `${serverHost}/user/login`;
   return fetch(url, {
     method: 'POST',
@@ -207,7 +158,6 @@ export const login = (username, password) => dispatch => {
     .then(res => res.json())
     .then(res => {
       const result = JSON.parse(res);
-      console.log(result);
       if (result.code === 1) {
         dispatch(action.AddUser(result.user, result.token));
         dispatch(action.SetMessage('Đăng nhập thành công', 'THÀNH CÔNG'));
@@ -224,14 +174,8 @@ export const login = (username, password) => dispatch => {
     });
 };
 
-export const register = (
-  username,
-  password,
-  repassword,
-  islogin
-) => dispatch => {
+export const register = (username, password, repassword, is) => dispatch => {
   dispatch(action.FetchDoing());
-  console.log('register...', username, password, repassword);
   const u = new FormData();
   u.append('s', 'd');
   return fetch(`${serverHost}/user/register`, {
@@ -241,15 +185,14 @@ export const register = (
   })
     .then(r => r.json())
     .then(res => {
-      console.log(res);
-      if (islogin) {
+      if (is) {
         dispatch(login(username, password));
         dispatch(updateInfoUser(true));
         return;
       }
       const result = JSON.parse(res);
       if (result.code === 1) {
-        dispatch(action.SetMessage(result.message, TITLE.SUCCESSFUL));
+        dispatch(action.SetMessage('Đăng ký thành công', TITLE.SUCCESSFUL));
         dispatch(action.SetUrlBack('/login'));
       } else dispatch(action.SetMessage(result.message, TITLE.FAILED));
     })
@@ -275,11 +218,10 @@ export const serveSocket = () => (dispatch, getState) => {
     const IO = getState().socketIO;
     socket = IO.socket;
   }
-  socket.emit('find');
+  const state = getState();
+  socket.emit('find', state.user.user);
   socket.on('YouAreAlone', () => {
     dispatch(LeaveRoom(true));
-    // dispatch(action.FetchDoing());
-    // socket.emit('find');
   });
   socket.on('get-room', (room, index) => {
     yourTurn = index === 1;
@@ -297,7 +239,6 @@ export const serveSocket = () => (dispatch, getState) => {
       )
     );
     const { infoUser } = getState();
-    console.log(infoUser);
     socket.emit('start-chat', id, infoUser.username, infoUser.avatar);
     socket.on('start-chat', (name, avt) => {
       dispatch(action.UpdateChatStatus({ name, profileAvatar: avt }));
@@ -306,20 +247,27 @@ export const serveSocket = () => (dispatch, getState) => {
   socket.on('play', value => {
     dispatch(action.AddOneToBoad(value, !yourTurn));
   });
-  socket.on('requestForUndo', n => {
-    dispatch(action.UpdateGameMode({ undo: n }));
-    dispatch(action.SetMessage('Xin phép bạn cho mình UNDO nhé', 'REQUEST'));
-  });
+
   socket.on('accept-request', () => {
-    dispatch(AcceptRequestUndo());
+    BeAccepted(dispatch, getState);
   });
 
   socket.on('chat', mess => {
     addResponseMessage(mess);
     dispatch(action.UpdateChatStatus({ newMessage: mess }));
   });
-  socket.on('RejectedUndoRespone', () => {
-    dispatch(RejectRequestUndo());
+
+  socket.on('beRejected', () => {
+    BeRejected(dispatch, getState);
+  });
+
+  socket.on('haveRequest', (reqCode, ...rest) => {
+    HaveRequest(reqCode, rest, dispatch, state);
   });
 };
+
 export * from './action';
+export * from './accept';
+export * from './beAccepted';
+export * from './reject';
+export * from './beRejected';

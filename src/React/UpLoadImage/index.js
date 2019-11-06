@@ -6,7 +6,6 @@ import './index.css';
 
 const ImageUpload = props => {
   const { imagePreviewUrl, upLoadImage, id, disabled } = props;
-  console.log('update image?', disabled);
   const _handleImageChange = e => {
     e.preventDefault();
     const reader = new FileReader();

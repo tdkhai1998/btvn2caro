@@ -1,5 +1,5 @@
 import Type from './Redux/Squares/type';
-import TypeHistoryOffline from './Redux/HistoryOffline/type';
+import TypeHis from './Redux/History/type';
 import haveWinner from './helper';
 import * as actions from './Redux';
 import robot from './robot';
@@ -10,12 +10,11 @@ export default store => next => action => {
     const { squares, winnerLine, gameMode, socketIO } = store.getState();
     if (squares[action.index] === null && winnerLine.dir === -1) {
       store.dispatch(actions.ChangeTurn());
-
       squares[action.index] = { value: action.turn ? 'X' : 'O', dirMark: -1 };
       const result = haveWinner(squares, action.index);
       if (result !== false) {
         store.dispatch(actions.AddWinnerLine(result));
-        if (actions.turn === gameMode.yourTurn) {
+        if (actions.turn !== gameMode.yourTurn) {
           store.dispatch(
             actions.SetMessage('BẠN LÀ NGƯỜI CHIẾN THẮNG', 'WINNER')
           );
@@ -37,7 +36,7 @@ export default store => next => action => {
       }
       next(action);
     }
-  } else if (action.type === TypeHistoryOffline.REMOVE) {
+  } else if (action.type === TypeHis.REMOVE) {
     const { from, to } = action;
     let { history } = store.getState();
     const change =

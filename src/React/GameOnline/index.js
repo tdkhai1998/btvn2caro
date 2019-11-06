@@ -23,7 +23,7 @@ class GameOnline extends React.Component {
     this.socket = null;
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.methods.exit();
   }
 
@@ -44,7 +44,7 @@ class GameOnline extends React.Component {
     if (socketIO.socket === null)
       return (
         <div>
-          <NavBar />
+          <NavBar selected="online" />
           <Popup />
           <Modal show={isFetching} style={{ margin: 'auto' }}>
             <Modal.Body>
@@ -79,7 +79,8 @@ class GameOnline extends React.Component {
             />
           </Modal.Body>
         </Modal>
-        <NavBar />
+        <NavBar selected="online" />
+
         <Popup />
         <Container style={{ marginTop: 20 }}>
           <Row>

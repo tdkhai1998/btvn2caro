@@ -3,9 +3,9 @@ import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
 import { connect } from 'react-redux';
 import { facelogin } from '../../Redux-thunk';
+import './index.css';
 
 const createUser = data => {
-  console.log(data);
   const user = {};
   user.username = `fb-${data.email}` || data.id;
   user.hoten = data.name;
@@ -14,13 +14,10 @@ const createUser = data => {
   user.role = 2;
   user.avatar = data.picture.data.url;
   user.password = '1';
-  console.log('user-cash', user);
   return user;
 };
 const createUserGg = data => {
-  console.log(data);
   const user = {};
-
   const profile = data.profileObj;
   user.username = `gg-${profile.email}`;
   user.hoten = profile.name;
@@ -42,12 +39,17 @@ const Facebook = props => {
     const tempUser = createUserGg(res);
     loginFace(tempUser);
   };
+  const style = {
+    height: 500
+  };
+
   return (
     <div>
       <FacebookLogin
+        style={style}
         appId="1218971688298611"
         fields="name,email,picture,birthday,gender"
-        size="medium"
+        size="small"
         callback={responseFacebook}
       />
       <GoogleLogin

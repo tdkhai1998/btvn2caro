@@ -169,3 +169,7 @@ form {
 .button:focus {
   top: -1px;
 }
+.Sele {
+  background: gray;
+  color: white;
+}

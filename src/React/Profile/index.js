@@ -62,7 +62,7 @@ const Profile = props => {
   if (!infoUser.fetched) {
     loadInfor();
     return (
-      <Modal show={isFetching} style={{ margin: 'auto' }}>
+      <Modal show={isFetching} style={{ margin: 'auto' }} onHide={() => {}}>
         <Modal.Body>
           <Image
             src="loading.gif"
@@ -85,7 +85,7 @@ const Profile = props => {
         </Modal.Body>
       </Modal>
       <Col lg="12" style={ColStyle}>
-        <NavBar />
+        <NavBar selected="profile" />
       </Col>
       <Col lg="3" />
       <Col lg="5">

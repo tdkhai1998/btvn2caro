@@ -7,6 +7,8 @@ import Controls from '../Controls';
 import SideBar from '../SideBar';
 import NavBar from '../NavBar';
 import Popup from '../Popup';
+import RequestPopup from '../RequestPopup';
+
 import { ChangeModeGame } from '../../Redux-thunk';
 import { UpdateGameMode, TypeGameMode } from '../../Redux';
 
@@ -21,8 +23,9 @@ class GameOffline extends React.Component {
     if (!user) return <Redirect to="/login" />;
     return (
       <div>
-        <NavBar />
+        <NavBar selected="game" />
         <Popup />
+        <RequestPopup />
         <Container style={{ marginTop: 20 }}>
           <Row>
             <Col md="auto">

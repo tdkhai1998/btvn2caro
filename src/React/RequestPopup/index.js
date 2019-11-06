@@ -2,13 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Modal } from 'react-bootstrap';
 import './style.css';
-import { RejectRequestUndo, AcceptRequestUndo } from '../../Redux-thunk';
+import { RejectRequest, AcceptRequest } from '../../Redux-thunk';
 
 const Popup = props => {
   const { message, accept, reject } = props;
-  if (message.value && message.title === 'REQUEST') {
+  if (message.value && message.id) {
     return (
-      <Modal show={!!message.value} style={{ margin: 'auto' }}>
+      <Modal
+        show={!!message.value}
+        style={{ margin: 'auto' }}
+        onHide={() => {}}
+      >
         <Modal.Header>
           <h4>
             <b>{message.title}</b>
@@ -32,8 +36,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  accept: () => dispatch(AcceptRequestUndo()),
-  reject: () => dispatch(RejectRequestUndo())
+  accept: () => dispatch(AcceptRequest()),
+  reject: () => dispatch(RejectRequest())
 });
 export default connect(
   mapStateToProps,

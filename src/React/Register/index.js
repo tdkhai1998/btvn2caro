@@ -65,7 +65,7 @@ const RegisterForm = props => {
             />
           </Form.Group>
           <Form.Group controlId="formGroupPassword">
-            <Form.Label>Re- 9Password</Form.Label>
+            <Form.Label>Re-Password</Form.Label>
             <Form.Control
               disabled={isFetching}
               onChange={changeRePass}
@@ -74,14 +74,23 @@ const RegisterForm = props => {
               value={repassword}
             />
           </Form.Group>
+
+          {isFetching && <Spinner animation="border" />}
           <Button
             disabled={isFetching}
             variant="primary"
             type="submit"
             style={{ float: 'right' }}
           >
-            {isFetching && <Spinner animation="border" />}
-            Submitabc
+            ĐĂNG KÝ
+          </Button>
+          <Button
+            disabled={isFetching}
+            variant="primary"
+            onClick={() => history.push('/login')}
+            style={{ float: 'right', marginRight: 20 }}
+          >
+            ĐĂNG NHẬP
           </Button>
         </Form>
       </Col>
@@ -92,8 +101,8 @@ const mapStateToProps = state => ({
   isFetching: state.isFetching
 });
 const mapDispatchToProps = dispatch => ({
-  register: (username, password, repassword, history) =>
-    dispatch(RegisterThunk(username, password, repassword, history))
+  register: (username, password, repassword) =>
+    dispatch(RegisterThunk(username, password, repassword, false))
 });
 
 export default connect(

@@ -6,15 +6,13 @@ import { sendChatMess } from '../../Redux-thunk';
 
 const Chat = props => {
   const { sendMess, chat } = props;
-  console.log('chatcht', chat);
   return (
     <div className="App">
       <Widget
         handleNewUserMessage={mess => sendMess(mess)}
         profileAvatar={chat.profileAvatar}
-        title="My new awesome title"
-        subtitle="And my cool subtitle"
-        badge="5"
+        subtitle={chat.name}
+        badge="1"
       />
     </div>
   );

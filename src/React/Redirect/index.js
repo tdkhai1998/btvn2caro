@@ -5,7 +5,6 @@ import { ResetUrlBack } from '../../Redux';
 
 const MyRedirect = props => {
   const { urlBack, reset } = props;
-  console.log('urlBack', urlBack);
   if (urlBack) {
     reset();
     return <Redirect to={urlBack} />;

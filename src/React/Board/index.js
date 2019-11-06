@@ -5,7 +5,6 @@ import Square from '../Square/index';
 
 const Message = 'Không phải lượt của bạn';
 const Board = props => {
-  console.log('props-boad', props);
   const { onClick, squares, turn, winnerLine, gameMode } = props;
   const row = [];
   for (let i = 0; i < 20; i += 1) {
@@ -42,7 +41,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onClick: (index, turn, modeGame) => {
-    console.log('My turn is', modeGame.yourTurn, 'and global turn is', turn);
     if (modeGame.yourTurn === turn) {
       return dispatch(AddOneToBoad(index, turn));
     }

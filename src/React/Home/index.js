@@ -8,7 +8,6 @@ import Popup from '../Popup';
 
 const Home = props => {
   const { logout2, history, user, isFetching, infoUser } = props;
-  console.log(user);
   const style = {
     background: 'gray',
     margin: '0 auto',
@@ -20,18 +19,20 @@ const Home = props => {
   return (
     <div>
       <Popup />
-      <NavBar />
+      <NavBar selected="home" />
       <Table bordered hover style={style}>
         <tbody>
           <tr>
             <td rowSpan="2">
               <img
                 alt=""
-                src={infoUser.avatar && 'avt.png'}
+                src={infoUser.avatar || 'avt.png'}
                 style={{ height: 150, width: 150 }}
               />
             </td>
-            <td>Name: {user && user.user && user.user.username}</td>
+            <td>
+              <h4>{infoUser.hoten}</h4>
+            </td>
           </tr>
           <tr>
             <td style={{ textAlign: 'center' }}>
