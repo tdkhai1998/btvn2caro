@@ -6,6 +6,7 @@ import { facelogin } from '../../Redux-thunk';
 import './index.css';
 
 const createUser = data => {
+  console.log(data);
   const user = {};
 
   user.username = `fb-${data.email}` || data.id;
@@ -19,6 +20,7 @@ const createUser = data => {
 };
 const createUserGg = data => {
   const user = {};
+  console.log(data);
   const profile = data.profileObj;
   if (profile) {
     user.username = `gg-${profile.email}`;
