@@ -7,6 +7,7 @@ import './index.css';
 
 const createUser = data => {
   const user = {};
+
   user.username = `fb-${data.email}` || data.id;
   user.hoten = data.name;
   user.ngaysinh = new Date(data.birthday);
@@ -19,13 +20,15 @@ const createUser = data => {
 const createUserGg = data => {
   const user = {};
   const profile = data.profileObj;
-  user.username = `gg-${profile.email}`;
-  user.hoten = profile.name;
-  user.ngaysinh = new Date();
-  user.gioitinh = profile.gender ? profile.gender === 'male' : true;
-  user.role = 3;
-  user.avatar = profile.imageUrl;
-  user.password = '2';
+  if (profile) {
+    user.username = `gg-${profile.email}`;
+    user.hoten = profile.name;
+    user.ngaysinh = new Date();
+    user.gioitinh = profile.gender ? profile.gender === 'male' : true;
+    user.role = 3;
+    user.avatar = profile.imageUrl;
+    user.password = '2';
+  }
   return user;
 };
 
@@ -57,7 +60,6 @@ const Facebook = props => {
         buttonText="LOGIN WITH GOOGLE"
         scope="https://www.googleapis.com/auth/user.birthday.read"
         onSuccess={responseGoogle}
-        onFailure={responseGoogle}
         fields="name,email,picture,birthday,gender"
       />
     </div>
